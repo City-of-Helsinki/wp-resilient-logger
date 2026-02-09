@@ -1,0 +1,29 @@
+{
+    "name": "wp/helfi_resilient_logger",
+    "description": "Wordpress bridge for ResilientLogger",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "WP\\helfi_resilient_logger\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/City-of-Helsinki/php-resilient-logger.git"
+    }
+  ],
+    "require": {
+        "city-of-helsinki/php-resilient-logger": "dev-develop"
+    },
+    "require-dev": {
+        "php-stubs/wp-cli-stubs": "dev-master"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
