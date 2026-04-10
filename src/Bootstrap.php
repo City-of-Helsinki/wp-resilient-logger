@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace WP\helfi_resilient_logger;
 
-use WP\helfi_resilient_logger\Sources\ResilientLogSource;
-use WP\helfi_resilient_logger\Sources\WSALLogSource;
-use WP\helfi_resilient_logger\Commands\SubmitUnsentEntries;
-use WP\helfi_resilient_logger\Commands\ClearSentEntries;
+use WP\helfi_resilient_logger\Entities\ResilientLogEntity;
+use WP\helfi_resilient_logger\Entities\WSALSyncEntity;
+use WP\helfi_resilient_logger\Helpers\WSALAugment;
+use WP\helfi_resilient_logger\Cron\CronTasks;
+use WP\helfi_resilient_logger\Commands\CLICommands;
 
 class Bootstrap {
   public static function setup(string $pluginFilePath): void {
@@ -15,9 +16,11 @@ class Bootstrap {
     \register_activation_hook($pluginFilePath, [self::class, 'plugin_activate']);
     \add_action('wp_initialize_site', [self::class, 'init_multisite']);
 
-    // Register CLI commands if we are in CLI mode
-    if (defined('WP_CLI')) {
-      self::register_commands();
+    CLICommands::register();
+    CronTasks::register();
+
+    if (WSALAugment::shouldEnforceSettings()) {
+      WSALAugment::getInstance()->enforceSettings();
     }
   }
 
@@ -58,15 +61,10 @@ class Bootstrap {
    * The actual "workhorse" that creates the tables.
    */
   private static function install_for_current_site(): void {
-      ResilientLogSource::install();
+      ResilientLogEntity::install();
 
-      if (WSALLogSource::isWsalInstalled()) {
-          WSALLogSource::install();
+      if (WSALAugment::isWsalInstalled()) {
+          WSALSyncEntity::install();
       }
-  }
-
-  private static function register_commands(): void {
-    \WP_CLI::add_command('resilient-logger submit_unsent_entries', SubmitUnsentEntries::class);
-    \WP_CLI::add_command('resilient-logger clear_sent_entries', ClearSentEntries::class);
   }
 }

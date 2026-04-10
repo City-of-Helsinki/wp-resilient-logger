@@ -25,5 +25,12 @@
         "allow-plugins": {
             "php-http/discovery": true
         }
+    },
+    "extra": {
+        "stubs": [
+            "src/Stubs/ResilientLoggerStubs.php",
+            "src/Stubs/WPStubs.php",
+            "src/Stubs/WSALStubs.php"
+        ]
     }
 }

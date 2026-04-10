@@ -102,7 +102,7 @@ class ResilientLogger extends ResilientLoggerBase {
       error_log($formatted);
     }
 
-    if (defined('WP_CLI')) {
+    if (defined('WP_CLI') && WP_CLI) {
       // Red for error, Yellow for info
       $color = ($level === 'ERROR') ? '%R' : '%Y';
       $colorized = \WP_CLI::colorize("{$color}{$formatted}%n");

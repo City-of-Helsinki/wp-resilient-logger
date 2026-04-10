@@ -39,6 +39,7 @@ composer require city-of-helsinki/wp-resilient-logger
 Example configuration:
 
 ```php
+/** Main resilient logger settings */
 define('RESILIENT_LOGGER_SETTINGS', [
   'sources' => [
     [
@@ -64,6 +65,9 @@ define('RESILIENT_LOGGER_SETTINGS', [
   'submit_unsent_entries'  => true,
   'clear_sent_entries'     => true,
 ]);
+
+/** Define this and set to true if native WP cron is to be used */
+define('RESILIENT_LOGGER_USE_WP_CRON', true);
 ```
 
 ---
