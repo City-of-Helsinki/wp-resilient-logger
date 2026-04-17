@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace WP\helfi_resilient_logger\Cron;
 
-use WP\helfi_resilient_logger\Enums\ResilientLoggerSchedule;
-
 final class SubmitUnsentEntries implements ScheduledAction
 {
 	public function action(): string
