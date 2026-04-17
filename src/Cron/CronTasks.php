@@ -14,12 +14,12 @@ class CronTasks {
 
     public static function registerCronSchedules(array $schedules) {
         $schedules['fifteen_minutes'] = array(
-            'interval' => 15 * 60,
+            'interval' => 15 * MINUTE_IN_SECONDS,
             'display'  => 'Every 15 Minutes',
         );
 
         $schedules['thirty_days'] = array(
-            'interval' => 30 * 24 * 60 * 60,
+            'interval' => 30 * DAY_IN_SECONDS,
             'display'  => 'Every 30 Days',
         );
 
