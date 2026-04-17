@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use WP\helfi_resilient_logger\Commands\ResilientLoggerEntriesCli;
+use CityOfHelsinki\WP\ResilientLogger\Commands\ResilientLoggerEntriesCli;
 
 \add_action( 'helsinki_wp_resilient_logger_loaded', function() {
 

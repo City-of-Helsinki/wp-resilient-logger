@@ -6,13 +6,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use WP\helfi_resilient_logger\ResilientLoggerAdapter;
-use WP\helfi_resilient_logger\ResilientLoggerConfig;
-use WP\helfi_resilient_logger\Cron\ResilientLoggerScheduler;
-use WP\helfi_resilient_logger\Cron\ResilientLoggerSchedule;
-use WP\helfi_resilient_logger\Helpers\CurrentEnvironment;
-use WP\helfi_resilient_logger\Helpers\WSALAugment;
-use WP\helfi_resilient_logger\Database\Migrator;
+use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerAdapter;
+use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
+use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerScheduler;
+use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerSchedule;
+use CityOfHelsinki\WP\ResilientLogger\Helpers\CurrentEnvironment;
+use CityOfHelsinki\WP\ResilientLogger\Helpers\WSALAugment;
+use CityOfHelsinki\WP\ResilientLogger\Database\Migrator;
 use ResilientLogger\Utils\HumanReadableDiffer;
 
 function helsinki_wp_resilient_logger(): ResilientLoggerAdapter {

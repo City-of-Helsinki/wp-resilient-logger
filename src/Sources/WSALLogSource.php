@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Sources;
+namespace CityOfHelsinki\WP\ResilientLogger\Sources;
 
 use ResilientLogger\Sources\AbstractLogSource;
-use WP\helfi_resilient_logger\ResilientLogger;
-use WP\helfi_resilient_logger\Database\WSALSyncEntity;
+use CityOfHelsinki\WP\ResilientLogger\ResilientLogger;
+use CityOfHelsinki\WP\ResilientLogger\Database\WSALSyncEntity;
 use WSAL\Entities\Occurrences_Entity;
 
 /**

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger;
+namespace CityOfHelsinki\WP\ResilientLogger;
 
 use Psr\Log\LoggerInterface;
 use ResilientLogger\ResilientLogger as ResilientLoggerBase;
 use ResilientLogger\Types;
-use WP\helfi_resilient_logger\Helpers\InternalLogger;
+use CityOfHelsinki\WP\ResilientLogger\Helpers\InternalLogger;
 
 /**
  * @phpstan-import-type ResilientLoggerOptions from Types

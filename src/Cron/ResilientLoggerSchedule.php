@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Cron;
+namespace CityOfHelsinki\WP\ResilientLogger\Cron;
 
 enum ResilientLoggerSchedule: string
 {

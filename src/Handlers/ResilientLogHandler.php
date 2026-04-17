@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Handlers;
+namespace CityOfHelsinki\WP\ResilientLogger\Handlers;
 
-use WP\helfi_resilient_logger\Sources\ResilientLogSource;
+use CityOfHelsinki\WP\ResilientLogger\Sources\ResilientLogSource;
 use ResilientLogger\Handler\ResilientLogHandler as ResilientLogHandlerBase;
 
 class ResilientLogHandler extends ResilientLogHandlerBase {

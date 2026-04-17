@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "WP\\helfi_resilient_logger\\": "src/"
+            "CityOfHelsinki\\WP\\ResilientLogger\\": "src/"
         }
     },
     "minimum-stability": "dev",

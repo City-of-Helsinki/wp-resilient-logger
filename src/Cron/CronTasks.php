@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Cron;
+namespace CityOfHelsinki\WP\ResilientLogger\Cron;
 
 class CronTasks {
     private const TASK_SUBMIT_UNSENT_ENTRIES = 'resilient_logger.submit_unsent_entries';

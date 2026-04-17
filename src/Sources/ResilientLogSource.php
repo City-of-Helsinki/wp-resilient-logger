@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Sources;
+namespace CityOfHelsinki\WP\ResilientLogger\Sources;
 
 use ResilientLogger\Sources\AbstractLogSource;
 use ResilientLogger\Utils\Helpers;
-use WP\helfi_resilient_logger\Database\ResilientLogEntity;
+use CityOfHelsinki\WP\ResilientLogger\Database\ResilientLogEntity;
 
 /**
  * @phpstan-import-type AuditLogDocument from ResilientLogger\Types

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Enums;
+namespace CityOfHelsinki\WP\ResilientLogger\Enums;
 
 enum WSALForcedSettings: string
 {

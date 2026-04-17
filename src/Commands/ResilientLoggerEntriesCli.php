@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Commands;
+namespace CityOfHelsinki\WP\ResilientLogger\Commands;
 
 use Exception;
 use WP_CLI;

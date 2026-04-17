@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Helpers;
+namespace CityOfHelsinki\WP\ResilientLogger\Helpers;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;

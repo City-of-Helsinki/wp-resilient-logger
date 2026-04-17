@@ -6,8 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use WP\helfi_resilient_logger\Cron\ResilientLoggerSchedule;
-use WP\helfi_resilient_logger\Helpers\CurrentEnvironment;
+use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerSchedule;
+use CityOfHelsinki\WP\ResilientLogger\Helpers\CurrentEnvironment;
 
 \add_action( 'helsinki_wp_resilient_logger_activate', function( CurrentEnvironment $environment ) {
 

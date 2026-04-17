@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger;
+namespace CityOfHelsinki\WP\ResilientLogger;
 
 use ResilientLogger\ResilientLogger;
-use WP\helfi_resilient_logger\Helpers\InternalLogger;
+use CityOfHelsinki\WP\ResilientLogger\Helpers\InternalLogger;
 
 final class ResilientLoggerAdapter
 {

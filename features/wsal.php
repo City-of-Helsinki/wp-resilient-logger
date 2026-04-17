@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use WP\helfi_resilient_logger\Enums\WSALForcedSettings;
+use CityOfHelsinki\WP\ResilientLogger\Enums\WSALForcedSettings;
 
 \add_action( 'helsinki_wp_resilient_logger_loaded', function() {
 

@@ -43,7 +43,7 @@ Example configuration:
 define('RESILIENT_LOGGER_SETTINGS', [
   'sources' => [
     [
-      'class' => 'WP\helfi_resilient_logger\Sources\WSALLogSource',
+      'class' => 'CityOfHelsinki\WP\ResilientLogger\Sources\WSALLogSource',
     ],
   ],
   'targets' => [

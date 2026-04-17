@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Helpers;
+namespace CityOfHelsinki\WP\ResilientLogger\Helpers;
 
 use WpSecurityAuditLog;
 use WSAL\Controllers\Alert_Manager;
-use WP\helfi_resilient_logger\ResilientLogger;
+use CityOfHelsinki\WP\ResilientLogger\ResilientLogger;
 use ResilientLogger\Utils\HumanReadableDiffer;
 
 class WSALAugment
