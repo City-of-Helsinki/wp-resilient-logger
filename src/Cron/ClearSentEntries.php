@@ -4,12 +4,29 @@ declare(strict_types=1);
 
 namespace WP\helfi_resilient_logger\Cron;
 
-class ClearSentEntries {
-    public static function trigger(): void {
+use WP\helfi_resilient_logger\Enums\ResilientLoggerSchedule;
+
+final class ClearSentEntries implements ScheduledAction
+{
+	public function action(): string
+	{
+		return 'resilient_logger.clear_sent_entries';
+	}
+
+	public function interval(): ResilientLoggerSchedule
+	{
+		return ResilientLoggerSchedule::THIRTY_DAYS;
+	}
+
+    public function trigger(): void
+	{
 		try {
 			\do_action( 'helsinki_wp_resilient_logger_clear_sent_entries' );
 		} catch (\Exception $e) {
-			error_log(sprintf("ResilientLogger error: %s", $e->getMessage()));
+			error_log( sprintf(
+				'ResilientLogger error: %s',
+				$e->getMessage()
+			) );
 		}
     }
 }
