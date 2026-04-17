@@ -6,6 +6,7 @@ namespace CityOfHelsinki\WP\ResilientLogger;
 
 use ResilientLogger\ResilientLogger;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\InternalLogger;
+use CityOfHelsinki\WP\ResilientLogger\Helpers\ResilientLoggerException;
 
 final class ResilientLoggerAdapter
 {

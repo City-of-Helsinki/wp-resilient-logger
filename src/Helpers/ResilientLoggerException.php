@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CityOfHelsinki\WP\ResilientLogger;
+namespace CityOfHelsinki\WP\ResilientLogger\Helpers;
 
 final class ResilientLoggerException extends \Exception
 {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CityOfHelsinki\WP\ResilientLogger;
 
+use CityOfHelsinki\WP\ResilientLogger\Helpers\ResilientLoggerException;
+
 final class ResilientLoggerConfig
 {
 	private array $settings;
