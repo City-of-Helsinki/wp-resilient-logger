@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WP\helfi_resilient_logger\Entities;
+namespace WP\helfi_resilient_logger\Database;
 
-class WSALSyncEntity {
+class WSALSyncEntity
+{
 
     private static function get_table_name(): string {
         global $wpdb;
