@@ -17,11 +17,6 @@ final class ResilientLoggerAdapter
 		$this->logger = ResilientLogger::create( $this->config->settings() );
 	}
 
-	public function wsal_enforce_settings(): bool
-	{
-		return $this->config->bool_setting( 'enforce_wsal_settings' );
-	}
-
 	public function submit_unsent_entries(): void
 	{
 		if ( $this->config->bool_setting( 'submit_unsent_entries' ) ) {
@@ -41,45 +36,5 @@ final class ResilientLoggerAdapter
 		} else {
 			throw new ResilientLoggerException::clear_sent_entries_disabled();
 		}
-	}
-
-	public function log_emergency( $message, array $context = array() ): void
-	{
-
-	}
-
-	public function log_alert( $message, array $context = array() ): void
-	{
-
-	}
-
-	public function log_critical( $message, array $context = array() ): void
-	{
-
-	}
-
-	public function log_error( $message, array $context = array() ): void
-	{
-
-	}
-
-	public function log_warning( $message, array $context = array() ): void
-	{
-
-	}
-
-	public function log_notice( $message, array $context = array() ): void
-	{
-
-	}
-
-	public function log_info( $message, array $context = array() ): void
-	{
-
-	}
-
-	public function log_debug( $message, array $context = array() ): void
-	{
-
 	}
 }
