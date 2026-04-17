@@ -91,5 +91,3 @@ namespace WSAL\Entities {
 		public static function get_multi_meta_array( array &$events, $connection = null ) {}
   }
 }
-
-?>
