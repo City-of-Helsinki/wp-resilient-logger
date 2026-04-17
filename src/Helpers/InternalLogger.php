@@ -10,90 +10,128 @@ use Psr\Log\LogLevel;
 /**
  * PSR-3 compliant logger to be used for internal messages
  */
-class InternalLogger implements LoggerInterface {
-  public function log($level, $message, array $context = []): void {
-    $level = strtoupper((string) $level);
-    $message = self::interpolate((string) $message, $context);
+class InternalLogger implements LoggerInterface
+{
+	public function log($level, $message, array $context = []): void
+	{
+		$level = strtoupper((string) $level);
+		$formatted = $this->format_message( $level, (string) $message, $context );
 
-    if (!empty($context)) {
-      // Remove items already used as placeholders to avoid redundancy
-      $remaining = array_filter($context, fn($key) => strpos($message, '{' . $key . '}') === false, ARRAY_FILTER_USE_KEY);
+		if ( $this->should_error_log( $level ) ) {
+			error_log( $formatted );
+		}
 
-      if (!empty($remaining)) {
-        $message .= ' | Context: ' . json_encode($remaining, JSON_UNESCAPED_UNICODE);
-      }
-    }
+		if ( \apply_filters( 'helsinki_wp_resilient_logger_is_cli', false ) ) {
+			\WP_CLI::log( sprintf(
+				"%s\n",
+				\WP_CLI::colorize( $this->parse_color( $level ) . $formatted . '%n' )
+			) );
+		}
+	}
 
-    $formatted = sprintf('[wp-resilient-logger] [%s] %s', $level, $message);
-    $isCritical = in_array($level, [LogLevel::EMERGENCY, LogLevel::ALERT, LogLevel::CRITICAL, LogLevel::ERROR], true);
+	private function should_error_log( string $level ): bool
+	{
+		if ( \apply_filters( 'helsinki_wp_resilient_logger_is_debug', false ) ) {
+			return true;
+		}
 
-    if ($isCritical || (defined('WP_DEBUG') && WP_DEBUG)) {
-      error_log($formatted);
-    }
+		return in_array( $level, array(
+			LogLevel::EMERGENCY,
+			LogLevel::ALERT,
+			LogLevel::CRITICAL,
+			LogLevel::ERROR
+		), true );
+	}
 
-    if (defined('WP_CLI')) {
-      $colorized = \WP_CLI::colorize(self::parseColor($level) . $formatted . '%n');
-      \WP_CLI::log(sprintf("%s\n", $colorized));
-    }
-  }
+	private function format_message( string $level, string $message, array $context ): string
+	{
+		$message = $this->interpolate((string) $message, $context);
 
-  private static function interpolate(string $message, array $context): string {
-    $replace = [];
-    foreach ($context as $key => $val) {
-      // Only scalars and stringable objects can be placeholders
-      if (is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) {
-        $replace['{' . $key . '}'] = $val;
-      }
-    }
-    return strtr($message, $replace);
-  }
+		if ( ! empty( $context ) ) {
+			// Remove items already used as placeholders to avoid redundancy
+			$remaining = array_filter(
+				$context,
+				fn($key) => strpos($message, '{' . $key . '}') === false,
+				ARRAY_FILTER_USE_KEY
+			);
 
-  /**
-   * Map PSR-3 levels to WP-CLI color tokens.
-   */
-  private static function parseColor(string $level): string {
-    return match ($level) {
-      LogLevel::EMERGENCY,
-      LogLevel::ALERT,
-      LogLevel::CRITICAL,
-      LogLevel::ERROR   => '%R', // Bright Red
-      LogLevel::WARNING => '%Y', // Yellow
-      LogLevel::NOTICE  => '%G', // Green
-      LogLevel::INFO    => '%B', // Blue
-      LogLevel::DEBUG   => '%c', // Cyan
-      default           => '%n', // Reset/Default
-    };
-  }
+			if ( ! empty( $remaining ) ) {
+				$message .= ' | Context: ' . json_encode( $remaining, JSON_UNESCAPED_UNICODE );
+			}
+		}
 
-  public function emergency($message, array $context = []): void {
-    $this->log(LogLevel::EMERGENCY, $message, $context);
-  }
+		return sprintf( '[wp-resilient-logger] [%s] %s', $level, $message );
+	}
 
-  public function alert($message, array $context = []): void {
-    $this->log(LogLevel::ALERT, $message, $context);
-  }
+	private function interpolate(string $message, array $context): string
+	{
+		$replace = array();
 
-  public function critical($message, array $context = []): void {
-    $this->log(LogLevel::CRITICAL, $message, $context);
-  }
+		foreach ( $context as $key => $val ) {
+			// Only scalars and stringable objects can be placeholders
+			if ( is_scalar($val) || (is_object($val) && method_exists($val, '__toString') ) ) {
+				$replace['{' . $key . '}'] = $val;
+			}
+		}
 
-  public function error($message, array $context = []): void {
-    $this->log(LogLevel::ERROR, $message, $context);
-  }
+		return strtr( $message, $replace );
+	}
 
-  public function warning($message, array $context = []): void {
-    $this->log(LogLevel::WARNING, $message, $context);
-  }
+	/**
+	  * Map PSR-3 levels to WP-CLI color tokens.
+	  */
+	private function parse_color(string $level): string
+	{
+		return match ($level) {
+			LogLevel::EMERGENCY,
+			LogLevel::ALERT,
+			LogLevel::CRITICAL,
+			LogLevel::ERROR   => '%R', // Bright Red
+			LogLevel::WARNING => '%Y', // Yellow
+			LogLevel::NOTICE  => '%G', // Green
+			LogLevel::INFO    => '%B', // Blue
+			LogLevel::DEBUG   => '%c', // Cyan
+			default           => '%n', // Reset/Default
+		};
+	}
 
-  public function notice($message, array $context = []): void {
-    $this->log(LogLevel::NOTICE, $message, $context);
-  }
+	public function emergency($message, array $context = []): void
+	{
+		$this->log(LogLevel::EMERGENCY, $message, $context);
+	}
 
-  public function info($message, array $context = []): void {
-    $this->log(LogLevel::INFO, $message, $context);
-  }
+	public function alert($message, array $context = []): void
+	{
+		$this->log(LogLevel::ALERT, $message, $context);
+	}
 
-  public function debug($message, array $context = []): void {
-    $this->log(LogLevel::DEBUG, $message, $context);
-  }
+	public function critical($message, array $context = []): void
+	{
+		$this->log(LogLevel::CRITICAL, $message, $context);
+	}
+
+	public function error($message, array $context = []): void
+	{
+		$this->log(LogLevel::ERROR, $message, $context);
+	}
+
+	public function warning($message, array $context = []): void
+	{
+		$this->log(LogLevel::WARNING, $message, $context);
+	}
+
+	public function notice($message, array $context = []): void
+	{
+		$this->log(LogLevel::NOTICE, $message, $context);
+	}
+
+	public function info($message, array $context = []): void
+	{
+		$this->log(LogLevel::INFO, $message, $context);
+	}
+
+	public function debug($message, array $context = []): void
+	{
+		$this->log(LogLevel::DEBUG, $message, $context);
+	}
 }
