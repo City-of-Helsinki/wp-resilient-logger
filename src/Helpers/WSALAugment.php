@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace CityOfHelsinki\WP\ResilientLogger\Helpers;
 
-use WpSecurityAuditLog;
-use WSAL\Controllers\Alert_Manager;
-use CityOfHelsinki\WP\ResilientLogger\ResilientLogger;
 use ResilientLogger\Utils\HumanReadableDiffer;
 
 class WSALAugment
