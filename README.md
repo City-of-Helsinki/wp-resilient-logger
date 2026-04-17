@@ -57,7 +57,6 @@ define('RESILIENT_LOGGER_SETTINGS', [
       "es_index" => 'index-name'
     ]
   ],
-  'environment'            => 'local',
   'origin'                 => 'helsinki-wp-dev',
   'store_old_entries_days' => 30,
   'batch_limit'            => 5000,
@@ -69,6 +68,8 @@ define('RESILIENT_LOGGER_SETTINGS', [
 /** Define this and set to true if native WP cron is to be used */
 define('RESILIENT_LOGGER_USE_WP_CRON', true);
 ```
+
+Current environment is determined with `wp_get_environment_type()`.
 
 ---
 
@@ -102,4 +103,3 @@ wp resilient-logger clear_sent_entries       # recommended once per month
 ## License
 
 MIT — see [LICENSE](./LICENSE)
-
