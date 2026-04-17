@@ -6,7 +6,7 @@ namespace WP\helfi_resilient_logger\Sources;
 
 use ResilientLogger\Sources\AbstractLogSource;
 use ResilientLogger\Utils\Helpers;
-use WP\helfi_resilient_logger\Entities\ResilientLogEntity;
+use WP\helfi_resilient_logger\Database\ResilientLogEntity;
 
 /**
  * @phpstan-import-type AuditLogDocument from ResilientLogger\Types
