@@ -1,7 +1,7 @@
 {
     "name": "wp/helfi_resilient_logger",
     "description": "Wordpress bridge for ResilientLogger",
-    "type": "library",
+    "type": "wordpress-plugin",
     "license": "MIT",
     "autoload": {
         "psr-4": {
