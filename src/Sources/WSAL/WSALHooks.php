@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CityOfHelsinki\WP\ResilientLogger\Helpers;
+namespace CityOfHelsinki\WP\ResilientLogger\Sources\WSAL;
 
 use ResilientLogger\Utils\HumanReadableDiffer;
 
-class WSALAugment
+final class WSALHooks
 {
 	/** Stores previous post contents here for diff as array [postId => postContents] */
 	private array $post_contents;
@@ -26,7 +26,7 @@ class WSALAugment
 		}
 	}
 
-	public function augment_event_data( array $data ): void
+	public function augment_event_data( array $data ): array
 	{
 		$this->add_content_diff( $data );
 		$this->add_request_id( $data );
