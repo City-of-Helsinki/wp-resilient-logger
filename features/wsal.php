@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use CityOfHelsinki\WP\ResilientLogger\Enums\WSALForcedSettings;
+use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALForcedSettings;
 
 \add_action( 'helsinki_wp_resilient_logger_loaded', function() {
 
@@ -30,16 +30,16 @@ use CityOfHelsinki\WP\ResilientLogger\Enums\WSALForcedSettings;
 			}
 		}
 
-		$adapter = helsinki_wp_resilient_logger_wsal_adapter();
+		$hooks = helsinki_wp_resilient_logger_wsal_hooks();
 
 		\add_action(
 			'pre_post_update',
-			array( $adapter, 'capture_old_post_content' )
+			array( $hooks, 'capture_old_post_content' )
 		);
 
 		\add_filter(
 			'wsal_event_data_before_log',
-			array( $adapter, 'augment_event_data' ),
+			array( $hooks, 'augment_event_data' ),
 			PHP_INT_MAX
 		);
 	}
