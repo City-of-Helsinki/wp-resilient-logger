@@ -20,12 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-\add_action( 'plugins_loaded', function() {
-
+function helsinki_wp_resilient_logger_require_files(): void {
 	$plugin_dir = \plugin_dir_path( __FILE__ );
 
 	if ( file_exists( $plugin_dir . 'vendor/autoload.php' ) ) {
-	    require_once $plugin_dir . 'vendor/autoload.php';
+		require_once $plugin_dir . 'vendor/autoload.php';
 	}
 
 	require_once $plugin_dir . 'features/factories.php';
@@ -34,6 +33,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	require_once $plugin_dir . 'features/database.php';
 	require_once $plugin_dir . 'features/logging.php';
 	require_once $plugin_dir . 'features/wsal.php';
+}
+
+\add_action( 'plugins_loaded', function() {
+
+	helsinki_wp_resilient_logger_require_files();
 
 	$environment = helsinki_wp_resilient_logger_environment();
 
@@ -75,6 +79,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 \register_activation_hook( __FILE__, 'helsinki_wp_resilient_logger_activate' );
 function helsinki_wp_resilient_logger_activate(): void {
+
+	helsinki_wp_resilient_logger_require_files();
 
 	\do_action(
 		'helsinki_wp_resilient_logger_activate',
