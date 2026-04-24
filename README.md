@@ -25,13 +25,6 @@ Provides reliable delivery of audit and operational events from WordPress to ext
 composer require city-of-helsinki/wp-resilient-logger
 ```
 
-### As a WordPress plugin
-
-1. Upload the plugin folder to `wp-content/plugins/`  
-2. Activate via WordPress admin  
-
-> **Note:** If the WP Security Audit Log plugin (WSAL) is installed after this plugin, you must deactivate and reactivate this plugin to correctly create the required SQL tables.
-
 ---
 
 ## Configuration
@@ -43,7 +36,7 @@ Example configuration:
 define('RESILIENT_LOGGER_SETTINGS', [
   'sources' => [
     [
-      'class' => 'CityOfHelsinki\WP\ResilientLogger\Sources\WSALLogSource',
+      'factory' => 'helsinki_wp_resilient_logger_wsal_log_source',
     ],
   ],
   'targets' => [
@@ -54,7 +47,8 @@ define('RESILIENT_LOGGER_SETTINGS', [
       "es_scheme" => 'http',
       "es_username" => 'username',
       "es_password" => 'password',
-      "es_index" => 'index-name'
+      "es_index" => 'index-name',
+      "required" => true,
     ]
   ],
   'origin'                 => 'helsinki-wp-dev',
@@ -78,8 +72,8 @@ Current environment is determined with `wp_get_environment_type()`.
 The following commands are available and intended to run via external cron:
 
 ```bash
-wp resilient-logger submit_unsent_entries    # recommended every 15 minutes
-wp resilient-logger clear_sent_entries       # recommended once per month
+wp resilient-logger entries submit    # recommended every 15 minutes
+wp resilient-logger entries clear       # recommended once per month
 ```
 
 ---
