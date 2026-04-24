@@ -42,9 +42,4 @@ final class ResilientLoggerException extends \Exception
 	{
 		return new self( 'Failed to insert log into WordPress database.' );
 	}
-
-	public static function invalid_days_to_keep(): self
-	{
-		return new self( 'Days to keep must be zero or a positive integer.' );
-	}
 }
