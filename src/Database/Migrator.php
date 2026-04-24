@@ -66,8 +66,6 @@ class Migrator
 
 		global $wpdb;
 
-		foreach ( $tables as $table ) {
-			(new $table($wpdb->prefix, $wpdb->get_charset_collate()))->up();
-		}
+		array_walk($tables, fn($table) => (new $table($wpdb))->up());
 	}
 }
