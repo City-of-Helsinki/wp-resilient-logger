@@ -9,7 +9,7 @@ enum ResilientLoggerSchedule: string
 	case FIFTEEN_MINUTES = 'fifteen_minutes';
     case THIRTY_DAYS = 'thirty_days';
 
-	public function interval(): string
+	public function interval(): int
     {
         return match( $this ) {
             self::FIFTEEN_MINUTES => 15 * \MINUTE_IN_SECONDS,
