@@ -29,4 +29,22 @@ final class ResilientLoggerException extends \Exception
 			implode( ', ', array_keys( $failures ) )
 		) );
 	}
+
+	public static function invalid_log_entry( int|string $id ): self
+	{
+		return new self( sprintf(
+			"ResilientLogger error: invalid log entry \"%s\".",
+			\esc_html( $id )
+		) );
+	}
+
+	public static function log_insert_failed(): self
+	{
+		return new self( 'Failed to insert log into WordPress database.' );
+	}
+
+	public static function invalid_days_to_keep(): self
+	{
+		return new self( 'Days to keep must be zero or a positive integer.' );
+	}
 }
