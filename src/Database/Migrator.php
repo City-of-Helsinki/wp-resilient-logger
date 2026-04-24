@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace CityOfHelsinki\WP\ResilientLogger\Database;
 
+use CityOfHelsinki\WP\ResilientLogger\Database\Migrations\CreateResilientLoggerTable;
+use CityOfHelsinki\WP\ResilientLogger\Database\Migrations\CreateWSALSyncTable;
+
 class Migrator
 {
 	public function create_tables(): void
@@ -53,10 +56,18 @@ class Migrator
 
 	private function create_entity_tables(): void
 	{
-		ResilientLogEntity::install();
+		$tables = array( CreateResilientLoggerTable::class );
 
 		if ( \apply_filters( 'helsinki_wp_resilient_logger_wsal_active', true ) ) {
-			WSALSyncEntity::install();
+			$tables[] = CreateWSALSyncTable::class;
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		global $wpdb;
+
+		foreach ( $tables as $table ) {
+			(new $table($wpdb->prefix, $wpdb->get_charset_collate()))->up();
 		}
 	}
 }
