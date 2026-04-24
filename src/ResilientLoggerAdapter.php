@@ -16,6 +16,7 @@ final class ResilientLoggerAdapter
 		private ResilientLoggerConfig $config,
 	) {
 		$this->logger = ResilientLogger::create( $this->config->settings() );
+		$this->logger::setInternalLogger(new InternalLogger());
 	}
 
 	public function submit_unsent_entries(): void
@@ -37,5 +38,32 @@ final class ResilientLoggerAdapter
 		} else {
 			throw ResilientLoggerException::clear_sent_entries_disabled();
 		}
+	}
+
+	public function log_unknown_alert_id(int $id, string $source): void
+	{
+		$this->logger::getInternalLogger()
+			->warning(
+				sprintf( 'Resilient log unknown alert ID: %d', $id ),
+				array('source' => $source)
+			);
+	}
+
+	public function log_does_not_clear_sent_entries(string $source): void
+	{
+		$this->logger::getInternalLogger()
+             ->info( sprintf(
+				 '%s does not support clearing old entries.',
+	             \esc_html( $source )
+             ) );
+	}
+
+	public function log_does_create_entries(string $source): void
+	{
+		$this->logger::getInternalLogger()
+	         ->info( sprintf(
+	             '%s does not support direct instance creation.',
+	             \esc_html( $source )
+	         ) );
 	}
 }
