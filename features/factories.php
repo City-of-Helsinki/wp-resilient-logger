@@ -11,13 +11,13 @@ use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerAdapter;
 use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
 use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerScheduler;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\CurrentEnvironment;
-use CityOfHelsinki\WP\ResilientLogger\Helpers\WSALAugment;
 use CityOfHelsinki\WP\ResilientLogger\Database\Migrator;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerData;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerLogSource;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALAlertAdapter;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALData;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALLogSource;
+use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALHooks;
 use ResilientLogger\Sources\AbstractLogSource;
 use ResilientLogger\Utils\HumanReadableDiffer;
 
@@ -51,8 +51,8 @@ function helsinki_wp_resilient_logger_scheduler(): ResilientLoggerScheduler {
 	return new ResilientLoggerScheduler();
 }
 
-function helsinki_wp_resilient_logger_wsal_adapter(): WSALAugment {
-	return new WSALAugment(
+function helsinki_wp_resilient_logger_wsal_hooks(): WSALHooks {
+	return new WSALHooks(
 		new HumanReadableDiffer()
 	);
 }
