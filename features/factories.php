@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+use CityOfHelsinki\WP\ResilientLogger\Database\ResilientLoggerTables;
 use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerAdapter;
 use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
 use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerScheduler;
@@ -14,6 +15,9 @@ use CityOfHelsinki\WP\ResilientLogger\Helpers\WSALAugment;
 use CityOfHelsinki\WP\ResilientLogger\Database\Migrator;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerData;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerLogSource;
+use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALAlertAdapter;
+use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALData;
+use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALLogSource;
 use ResilientLogger\Sources\AbstractLogSource;
 use ResilientLogger\Utils\HumanReadableDiffer;
 
@@ -61,7 +65,27 @@ function helsinki_wp_resilient_logger_native_log_source(): AbstractLogSource {
 	global $wpdb;
 
 	return new ResilientLoggerLogSource(
-		new ResilientLoggerData( $wpdb ),
+		new ResilientLoggerData(
+			helsinki_wp_resilient_logger_config(),
+			$wpdb,
+			ResilientLoggerTables::resilient_log($wpdb),
+			ResilientLoggerTables::date_time_format()
+		),
+		helsinki_wp_resilient_logger_config()
+	);
+}
+
+function helsinki_wp_resilient_logger_wsal_log_source(): AbstractLogSource {
+	global $wpdb;
+
+	return new WSALLogSource(
+		new WSALData(
+			helsinki_wp_resilient_logger_config(),
+			$wpdb,
+			ResilientLoggerTables::wsal_sync($wpdb),
+			ResilientLoggerTables::date_time_format()
+		),
+		new WSALAlertAdapter(),
 		helsinki_wp_resilient_logger_config()
 	);
 }
