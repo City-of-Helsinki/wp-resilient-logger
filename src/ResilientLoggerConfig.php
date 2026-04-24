@@ -23,20 +23,65 @@ final class ResilientLoggerConfig
 		return $this->settings;
 	}
 
-	public function bool_setting( string $name ): bool
+	public function environment(): string
 	{
-		return isset( $this->settings[$name] ) ? (bool) $this->settings[$name] : false;
+		return $this->string_setting( __FUNCTION__, 'unknown' );
+	}
+
+	public function origin(): string
+	{
+		return $this->string_setting( __FUNCTION__, 'unknown' );
+	}
+
+	public function store_old_entries_days(): int
+	{
+		return $this->int_setting( __FUNCTION__, 30 );
+	}
+
+	public function batch_limit(): int
+	{
+		return $this->int_setting( __FUNCTION__, 5000 );
+	}
+
+	public function chunk_size(): int
+	{
+		return $this->int_setting( __FUNCTION__, 500 );
+	}
+
+	public function clear_sent_entries(): bool
+	{
+		return $this->bool_setting( __FUNCTION__ );
+	}
+
+	public function submit_unsent_entries(): bool
+	{
+		return $this->bool_setting( __FUNCTION__ );
+	}
+
+	private function string_setting( string $name, string $default = '' ): string
+	{
+		return $this->settings[ $name ] ?? $default;
+	}
+
+	private function int_setting( string $name, int $default ): int
+	{
+		return isset( $this->settings[$name] ) ? (int) $this->settings[$name] : $default;
+	}
+
+	private function bool_setting( string $name ): bool
+	{
+		return isset( $this->settings[ $name ] ) && (bool) $this->settings[ $name ];
 	}
 
 	private function env_settings(): array
 	{
 		if ( ! defined( 'RESILIENT_LOGGER_SETTINGS' ) ) {
-			throw new ResilientLoggerException::settings_missing();
+			throw ResilientLoggerException::settings_missing();
 		}
 
 		$settings = constant( 'RESILIENT_LOGGER_SETTINGS' );
 		if ( ! is_array( $settings ) ) {
-			throw new ResilientLoggerException::settings_must_be_array();
+			throw ResilientLoggerException::settings_must_be_array();
 		}
 
 		return $settings;
