@@ -77,7 +77,7 @@ final class WSALAlertAdapter
 			$id >= 6000 && $id <= 6999         => ['UPDATE',  'System/WSAL Settings Change'],
 			$id >= 8000 && $id <= 9999         => ['UPDATE',  'Extension/WooCommerce Action'],
 			default => (function () use ($id) {
-				\do_action( 'helsinki_wp_resilient_logger_unknown_alert_id', $id );
+				\do_action( 'helsinki_wp_resilient_logger_unknown_alert_id', $id, get_class($this) );
 
 				return ['UNKNOWN', "Activity Log Event ({$id})"];
 			})(),
