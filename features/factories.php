@@ -9,10 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerAdapter;
 use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
 use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerScheduler;
-use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerSchedule;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\CurrentEnvironment;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\WSALAugment;
 use CityOfHelsinki\WP\ResilientLogger\Database\Migrator;
+use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerData;
+use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerLogSource;
+use ResilientLogger\Sources\AbstractLogSource;
 use ResilientLogger\Utils\HumanReadableDiffer;
 
 function helsinki_wp_resilient_logger(): ResilientLoggerAdapter {
@@ -22,11 +24,23 @@ function helsinki_wp_resilient_logger(): ResilientLoggerAdapter {
 }
 
 function helsinki_wp_resilient_logger_environment(): CurrentEnvironment {
-	return new CurrentEnvironment();
+	static $environment;
+
+	if ( ! isset( $environment ) ) {
+		$environment = new CurrentEnvironment();
+	}
+
+	return $environment;
 }
 
 function helsinki_wp_resilient_logger_config(): ResilientLoggerConfig {
-	return new ResilientLoggerConfig();
+	static $config;
+
+	if ( ! isset( $config ) ) {
+		$config = new ResilientLoggerConfig();
+	}
+
+	return $config;
 }
 
 function helsinki_wp_resilient_logger_scheduler(): ResilientLoggerScheduler {
@@ -41,4 +55,13 @@ function helsinki_wp_resilient_logger_wsal_adapter(): WSALAugment {
 
 function helsinki_wp_resilient_logger_db_migrator(): Migrator {
 	return new Migrator();
+}
+
+function helsinki_wp_resilient_logger_native_log_source(): AbstractLogSource {
+	global $wpdb;
+
+	return new ResilientLoggerLogSource(
+		new ResilientLoggerData( $wpdb ),
+		helsinki_wp_resilient_logger_config()
+	);
 }
