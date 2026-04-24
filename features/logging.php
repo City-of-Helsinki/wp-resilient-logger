@@ -21,4 +21,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 		array( $adapter, 'clear_sent_entries' )
 	);
 
+	\add_action(
+		'helsinki_wp_resilient_logger_unknown_alert_id',
+		array( $adapter, 'log_unknown_alert_id' ),
+		10, 2
+	);
+
+	\add_action(
+		'helsinki_wp_resilient_logger_does_not_clear_sent_entries',
+		array( $adapter, 'log_does_not_clear_sent_entries' )
+	);
+
+	\add_action(
+		'helsinki_wp_resilient_logger_does_create_entries',
+		array( $adapter, 'log_does_create_entries' )
+	);
+
 }, 10 );
