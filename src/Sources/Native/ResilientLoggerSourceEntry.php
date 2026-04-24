@@ -17,10 +17,10 @@ final class ResilientLoggerSourceEntry implements AbstractLogSourceEntry
 		private ResilientLoggerConfig $config,
 		array $row
 	) {
-		$this->id = $row['id'];
+		$this->id = (int) $row['id'];
 		unset( $row['id'] );
 
-		$this->is_sent = $row['is_sent'];
+		$this->is_sent = (bool) $row['is_sent'];
 		unset( $row['is_sent'] );
 
 		$this->row = $row;
