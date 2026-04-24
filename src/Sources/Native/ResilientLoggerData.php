@@ -2,21 +2,19 @@
 
 namespace CityOfHelsinki\WP\ResilientLogger\Sources\Native;
 
+use CityOfHelsinki\WP\ResilientLogger\Database\ResilientLoggerTables;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\ResilientLoggerException;
+use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
 use wpdb;
 
 final class ResilientLoggerData
 {
-	private \wpdb $db;
-	private string $table;
-	private string $date_format;
-
-	public function __construct(wpdb $db)
-	{
-		$this->db = $db;
-		$this->table = $this->db->prefix . 'helfi_resilient_log';
-		$this->date_format = 'Y-m-d H:i:s';
-	}
+	public function __construct(
+		private readonly ResilientLoggerConfig $config,
+		private readonly wpdb $db,
+		private readonly string $table,
+		private readonly string $date_format
+	) {}
 
 	public function insert(int $level, string $message, string $context): array
 	{
@@ -62,43 +60,27 @@ final class ResilientLoggerData
 	{
 		$sql = $this->db->prepare(
 			"SELECT * FROM {$this->table} WHERE is_sent = 0 ORDER BY created_at ASC LIMIT %d",
-			$limit > 0 ? $limit : 50
+			$limit > 0 ? $limit : $this->config->chunk_size()
 		);
 
 		return $this->db->get_results( $sql,ARRAY_A ) ?: array();
 	}
 
-	public function mark_sent(int ...$ids): bool
+	public function mark_sent(int $id): bool
 	{
-		$ids = array_filter( $ids );
-		if ( ! $ids ) {
-			return false;
-		}
-
-		if ( count( $ids ) > 1 ) {
-			$placeholders = array_fill( 0, count( $ids ), '%d' );
-
-			$sql = $this->db->prepare(
-				sprintf(
-					"UPDATE {$this->table} SET `in_sent` = 1 WHERE `id` IN (%s)",
-					implode( ',', $placeholders )
-				),
-				...$ids
-			);
-		} else {
-			$sql = $this->db->prepare(
-				"UPDATE * FROM {$this->table} SET `in_sent` = 1 WHERE `id` = %d",
-				reset( $ids )
-			);
-		}
-
-		return (bool) $this->db->query( $sql );
+		return false !== $this->db->update(
+			$this->table,
+			['is_sent' => 1],
+			['id' => $id],
+			['%d'],
+			['%d']
+		);
 	}
 
 	public function clear_sent(int $days_to_keep): void
 	{
 		if ( $days_to_keep < 0 ) {
-			throw ResilientLoggerException::invalid_days_to_keep();
+			$days_to_keep = $this->config->store_old_entries_days();
 		}
 
 		$sql = $this->db->prepare(
