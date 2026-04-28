@@ -33,8 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	);
 
 	\add_action(
-		'helsinki_wp_resilient_logger_does_create_entries',
-		array( $adapter, 'log_does_create_entries' )
+		'helsinki_wp_resilient_logger_does_not_create_entries',
+		array( $adapter, 'log_does_not_create_entries' )
 	);
 
 }, 10 );

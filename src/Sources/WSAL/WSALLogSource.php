@@ -17,7 +17,7 @@ final class WSALLogSource implements AbstractLogSource
 	public function create(int $level, mixed $message, array $context = []): ?AbstractLogSourceEntry
 	{
 		\do_action(
-			'helsinki_wp_resilient_logger_does_create_entries',
+			'helsinki_wp_resilient_logger_does_not_create_entries',
 			get_class( $this )
 		);
 

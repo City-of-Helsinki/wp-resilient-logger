@@ -58,7 +58,7 @@ final class ResilientLoggerAdapter
              ) );
 	}
 
-	public function log_does_create_entries(string $source): void
+	public function log_does_not_create_entries(string $source): void
 	{
 		$this->logger::getInternalLogger()
 	         ->info( sprintf(
