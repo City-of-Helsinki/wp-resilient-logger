@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Helfi Resilient Logger\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-28 20:55+0000\n"
+"PO-Revision-Date: 2026-04-28 20:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: Finnish\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.4; wp-6.9.4; php-8.3.30\n"
+"X-Domain: wp-resilient-logger"
+
+#. Author of the plugin
+msgid "City of Helsinki"
+msgstr "Helsingin kaupunki"
+
+#: src/Cron/ResilientLoggerSchedule.php:23
+msgid "Every 15 Minutes"
+msgstr "Kerran 15 minuutissa"
+
+#: src/Cron/ResilientLoggerSchedule.php:24
+msgid "Every 30 Days"
+msgstr "Kerran 30 päivässä"
+
+#. Name of the plugin
+msgid "Helfi Resilient Logger"
+msgstr "Helfi Resilient Logger"
+
+#. Author URI of the plugin
+msgid "https://www.hel.fi"
+msgstr "https://www.hel.fi"
+
+#. Description of the plugin
+msgid ""
+"WordPress-compatible implementation of city-of-helsinki/php-resilient-logger"
+msgstr ""
+"WordPress-yhteensopiva toteutus city-of-helsinki/php-resilient-logger "
+"lokitoiminnosta."
