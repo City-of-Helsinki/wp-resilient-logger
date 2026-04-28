@@ -21,17 +21,7 @@ final class WSALData
 
 	public function unsent(int $limit): array
 	{
-		$sql = $this->db->prepare(
-			"SELECT id FROM {$this->occurences_table} as ot
-					INNER JOIN {$this->sync_table} AS st
-					ON st.occurrence_id = ot.id
-					WHERE st.is_sent = 0
-					ORDER BY ot.id
-					ASC LIMIT %d",
-			$limit > 0 ? $limit : $this->config->chunk_size(),
-		);
-
-		$ids = array_map( 'intval', $this->db->get_col( $sql ) );
+		$ids = $this->unset_ids( $limit );
 		if ( $ids ) {
 			$placeholders = array_fill( 0, count( $ids ), '%d' );
 
@@ -42,11 +32,29 @@ final class WSALData
 				),
 				$ids,
 			);
-
-			return $rows ? Occurrences_Entity::get_multi_meta_array($rows) : array();
+		} else {
+			$rows = Occurrences_Entity::load_array(
+	            '1 = 1 ORDER BY id ASC LIMIT %d',
+	            array( $limit )
+	        );
 		}
 
-		return array();
+		return $rows ? Occurrences_Entity::get_multi_meta_array($rows) : array();
+	}
+
+	private function unset_ids( int $limit ): array
+	{
+		$sql = $this->db->prepare(
+			"SELECT id FROM {$this->occurences_table} as ot
+					INNER JOIN {$this->sync_table} AS st
+					ON st.occurrence_id = ot.id
+					WHERE st.is_sent = 0
+					ORDER BY ot.id
+					ASC LIMIT %d",
+			$limit > 0 ? $limit : $this->config->chunk_size(),
+		);
+
+		return array_map( 'intval', $this->db->get_col( $sql ) );
 	}
 
 	public function mark_sent(int $occurrence_id): bool
