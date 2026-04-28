@@ -1,0 +1,42 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Helfi Resilient Logger\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-28 20:55+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.4; wp-6.9.4; php-8.3.30\n"
+"X-Domain: wp-resilient-logger"
+
+#. Author of the plugin
+msgid "City of Helsinki"
+msgstr ""
+
+#: src/Cron/ResilientLoggerSchedule.php:23
+msgid "Every 15 Minutes"
+msgstr ""
+
+#: src/Cron/ResilientLoggerSchedule.php:24
+msgid "Every 30 Days"
+msgstr ""
+
+#. Name of the plugin
+msgid "Helfi Resilient Logger"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.hel.fi"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"WordPress-compatible implementation of city-of-helsinki/php-resilient-logger"
+msgstr ""
