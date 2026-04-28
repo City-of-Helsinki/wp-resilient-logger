@@ -24,12 +24,14 @@ final class ResilientLoggerEntriesCli
 	 *
 	 * @subcommand clear
 	 */
-	private function clear( $args, $flags ): void
+	public function clear( $args, $flags ): void
 	{
+		WP_CLI::log( 'Begin clearing sent entries...' );
+
 		try {
 			\do_action( 'helsinki_wp_resilient_logger_clear_sent_entries' );
 
-			WP_CLI::success( 'Finished clear_sent_entries.' );
+			WP_CLI::success( 'Finished clearing sent entries.' );
 		} catch ( Exception $e ) {
 			WP_CLI::error( sprintf( 'Cleanup failed: %s', $e->getMessage() ) );
 		}
@@ -49,9 +51,9 @@ final class ResilientLoggerEntriesCli
 	 *
 	 * @subcommand submit
 	 */
-	private function submit( $args, $flags ): void
+	public function submit( $args, $flags ): void
 	{
-		WP_CLI::log( 'Begin submit_unsent_entries job.' );
+		WP_CLI::log( 'Begin submitting unsent entries...' );
 
 		try {
 			\do_action( 'helsinki_wp_resilient_logger_submit_unsent_entries' );
