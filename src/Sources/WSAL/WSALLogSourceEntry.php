@@ -20,15 +20,11 @@ final class WSALLogSourceEntry implements AbstractLogSourceEntry
 		private ResilientLoggerConfig $config,
 		array $row
 	) {
-		$this->id = (int) $row['id'];
-		unset( $row['id'] );
-
-		$this->is_sent = (bool) $row['is_sent'];
-		unset( $row['is_sent'] );
-
+		$this->id = isset( $row['id'] ) ? (int) $row['id'] : 0;
+		$this->is_sent = isset( $row['is_sent'] ) ? (bool) $row['is_sent'] : false;
 		$this->row = $row;
 		$this->details = $alerts->parseAlertDetails(
-			(int) $this->row['alert_id']
+			(int) $this->row['alert_id'] ?? 0
 		);
 		$this->target = $alerts->parseTarget(
 			$this->row['alert_id'] ?? 'none',
