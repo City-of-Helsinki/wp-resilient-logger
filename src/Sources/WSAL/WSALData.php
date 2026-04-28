@@ -46,11 +46,12 @@ final class WSALData
 	{
 		$sql = $this->db->prepare(
 			"SELECT id FROM {$this->occurences_table} as ot
-					INNER JOIN {$this->sync_table} AS st
-					ON st.occurrence_id = ot.id
-					WHERE st.is_sent = 0
-					ORDER BY ot.id
-					ASC LIMIT %d",
+			LEFT JOIN {$this->sync_table} AS st
+				ON st.occurrence_id = ot.id
+			WHERE st.is_sent = 0
+				OR st.occurrence_id IS NULL
+			ORDER BY ot.id
+			ASC LIMIT %d",
 			$limit > 0 ? $limit : $this->config->chunk_size(),
 		);
 
