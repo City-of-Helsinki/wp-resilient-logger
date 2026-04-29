@@ -4,34 +4,33 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a7f94c7221de01e8aa9f41f23b9332d",
+    "content-hash": "1b25c57b4ee89482176c1fec4d2bd503",
     "packages": [
         {
             "name": "city-of-helsinki/php-resilient-logger",
-            "version": "dev-develop",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/php-resilient-logger.git",
-                "reference": "99f887fefc94d586a3971ca67de32a8dd1e5274e"
+                "reference": "642456f43c644fb659943da65c9a74be1efe0988"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/php-resilient-logger/zipball/99f887fefc94d586a3971ca67de32a8dd1e5274e",
-                "reference": "99f887fefc94d586a3971ca67de32a8dd1e5274e",
+                "url": "https://api.github.com/repos/City-of-Helsinki/php-resilient-logger/zipball/642456f43c644fb659943da65c9a74be1efe0988",
+                "reference": "642456f43c644fb659943da65c9a74be1efe0988",
                 "shasum": ""
             },
             "require": {
-                "elasticsearch/elasticsearch": "^8",
-                "monolog/monolog": "^3.9",
-                "php": "^8.1",
-                "sebastian/diff": "^7.0"
+                "elasticsearch/elasticsearch": "^8.0",
+                "monolog/monolog": "^2.0 || ^3.0",
+                "php": ">=8.1",
+                "sebastian/diff": "^5.0 || ^6.0 || ^7.0"
             },
             "require-dev": {
                 "behat/mink": "^1.12",
-                "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
                 "phpspec/prophecy": "^1.20",
                 "phpspec/prophecy-phpunit": "^2.3",
-                "phpunit/phpunit": "^12.0"
+                "phpunit/phpunit": "^10.5 || ^11.5"
             },
             "type": "library",
             "autoload": {
@@ -49,10 +48,10 @@
             ],
             "description": "PHP resilient logger for monolog",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/php-resilient-logger/tree/develop",
+                "source": "https://github.com/City-of-Helsinki/php-resilient-logger/tree/2.0.1",
                 "issues": "https://github.com/City-of-Helsinki/php-resilient-logger/issues"
             },
-            "time": "2026-04-10T10:24:25+00:00"
+            "time": "2026-04-28T07:24:42+00:00"
         },
         {
             "name": "elastic/transport",
@@ -1515,7 +1514,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "city-of-helsinki/php-resilient-logger": 20,
         "php-stubs/wp-cli-stubs": 20
     },
     "prefer-stable": false,

@@ -16,7 +16,7 @@
     }
   ],
     "require": {
-        "city-of-helsinki/php-resilient-logger": "dev-develop"
+        "city-of-helsinki/php-resilient-logger": "^2.0"
     },
     "require-dev": {
         "php-stubs/wp-cli-stubs": "dev-master"
