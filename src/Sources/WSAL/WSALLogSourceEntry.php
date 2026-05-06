@@ -9,13 +9,13 @@ use stdClass;
 final class WSALLogSourceEntry implements AbstractLogSourceEntry
 {
 	public function __construct(
-		private stdClass $alert,
+		private stdClass $entry,
 		private WSALData $data
 	) {}
 
 	public function getId(): int|string
 	{
-		return $this->alert->id;
+		return $this->entry->id;
 	}
 
 	public function getDocument(): array
@@ -26,19 +26,19 @@ final class WSALLogSourceEntry implements AbstractLogSourceEntry
 			'@timestamp' => $timestamp,
 			'audit_event' => array(
 				'actor' => array(
-					'user_id' => (string) ($this->alert->meta['CurrentID'] ?? '0'),
-					'ip'      => (string) ($this->alert->meta['ClientIP'] ?? 'unknown'),
+					'user_id' => (string) ($this->entry->meta['CurrentID'] ?? '0'),
+					'ip'      => (string) ($this->entry->meta['ClientIP'] ?? 'unknown'),
 				),
 				'date_time'   => $timestamp,
-				'operation'   => $this->alert->details['operation'],
-				'origin'      => $this->alert->origin,
-				'target'      => $this->alert->target,
-				'environment' => $this->alert->environment,
-				'message'     => $this->alert->message,
+				'operation'   => $this->entry->details['operation'],
+				'origin'      => $this->entry->origin,
+				'target'      => $this->entry->target,
+				'environment' => $this->entry->environment,
+				'message'     => $this->entry->message,
 				'level'       => 200,
-				'extra'       => array_merge( $this->alert->meta, array(
-					'WSAL_AlertId'   => $this->alert->alert_id,
-					'WSAL_AlertDesc' => $this->alert->details['description'],
+				'extra'       => array_merge( $this->entry->meta, array(
+					'WSAL_AlertId'   => $this->entry->alert_id,
+					'WSAL_AlertDesc' => $this->entry->details['description'],
 				) ),
 			),
 		);
@@ -46,20 +46,20 @@ final class WSALLogSourceEntry implements AbstractLogSourceEntry
 
 	private function parseDateString(): string
 	{
-		$timestamp = new \DateTimeImmutable("@{$this->alert->created_on}");
+		$timestamp = new \DateTimeImmutable("@{$this->entry->created_on}");
 
 		return $timestamp->format(\DateTime::ATOM);
 	}
 
 	public function isSent(): bool
 	{
-		return $this->alert->is_sent;
+		return $this->entry->is_sent;
 	}
 
 	public function markSent(): void
 	{
 		if ( ! $this->isSent() ) {
-			$this->alert->is_sent = $this->data->mark_sent( $this->alert->id );
+			$this->entry->is_sent = $this->data->mark_sent( $this->entry->id );
 		}
 	}
 }
