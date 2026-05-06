@@ -32,7 +32,6 @@ final class CrudOperations
 				'blocked' => self::DELETE,
 				'deactivated' => self::DELETE,
 				'deleted' => self::DELETE,
-				'denied' => self::DELETE,
 				'failed' => self::DELETE,
 				'logout' => self::DELETE,
 				'uninstalled' => self::DELETE,
@@ -50,6 +49,7 @@ final class CrudOperations
 				'updated' => self::UPDATE,
 
 				'available' => self::READ,
+				'denied' => self::READ,
 				'failed-login' => self::READ,
 				'read' => self::READ,
 				'opened' => self::READ,
