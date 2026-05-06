@@ -18,7 +18,6 @@ final class CrudOperations
 			$this->type_op = array(
 				'activated' => self::CREATE,
 				'added' => self::CREATE,
-				'approved' => self::CREATE,
 				'created' => self::CREATE,
 				'executed' => self::CREATE,
 				'exported' => self::CREATE,
@@ -35,12 +34,11 @@ final class CrudOperations
 				'deleted' => self::DELETE,
 				'denied' => self::DELETE,
 				'failed' => self::DELETE,
-				'failed-login' => self::DELETE,
 				'logout' => self::DELETE,
-				'unapproved' => self::DELETE,
 				'uninstalled' => self::DELETE,
 				'revoked' => self::DELETE,
 
+				'approved' => self::UPDATE,
 				'disabled' => self::UPDATE,
 				'duplicated' => self::UPDATE,
 				'enabled' => self::UPDATE,
@@ -48,9 +46,11 @@ final class CrudOperations
 				'renamed' => self::UPDATE,
 				'restored' => self::UPDATE,
 				'starred' => self::UPDATE,
+				'unapproved' => self::UPDATE,
 				'updated' => self::UPDATE,
 
 				'available' => self::READ,
+				'failed-login' => self::READ,
 				'read' => self::READ,
 				'opened' => self::READ,
 				'viewed' => self::READ,
