@@ -4,7 +4,7 @@ namespace CityOfHelsinki\WP\ResilientLogger\Sources\Native;
 
 use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
 use ResilientLogger\Sources\AbstractLogSourceEntry;
-use ResilientLogger\Utils\Helpers;
+use stdClass;
 
 final class ResilientLoggerSourceEntry implements AbstractLogSourceEntry
 {
@@ -13,58 +13,42 @@ final class ResilientLoggerSourceEntry implements AbstractLogSourceEntry
 	private bool $is_sent;
 
 	public function __construct(
-		private ResilientLoggerData $data,
-		private ResilientLoggerConfig $config,
-		array $row
-	) {
-		$this->id = isset( $row['id'] ) ? (int) $row['id'] : 0;
-		$this->is_sent = isset( $row['is_sent'] ) ? (bool) $row['is_sent'] : false;
-		$this->row = $row;
-	}
+		private stdClass $entry,
+		private ResilientLoggerData $data
+	) {}
 
 	public function getId(): int|string
 	{
-		return $this->id;
+		return $this->entry->id;
 	}
 
 	public function getDocument(): array
 	{
-		$message   = json_decode($this->row['message'], true);
-		$context   = json_decode($this->row['context'], true) ?: [];
-		$createdAt = new \DateTimeImmutable($this->row['created_at']);
-		$message   = is_array($message) ? json_encode($message) : (string) $message;
-
-		$actor     = $context['actor']     ?? 'unknown';
-		$operation = $context['operation'] ?? 'MANUAL';
-		$target    = $context['target']    ?? 'unknown';
-
-		unset($context['actor'], $context['operation'], $context['target']);
-
 		return array(
-			'@timestamp' => $createdAt,
+			'@timestamp' => $this->entry->created_at,
 			'audit_event' => array(
-				'actor'       => Helpers::valueAsArray($actor),
-				'date_time'   => $createdAt,
-				'operation'   => $operation,
-				'origin'      => $this->config->origin(),
-				'target'      => Helpers::valueAsArray($target),
-				'environment' => $this->config->environment(),
-				'message'     => $message,
-				'level'       => (int) $this->row['level'],
-				'extra'       => $context,
+				'actor'       => $this->entry->actor,
+				'date_time'   => $this->entry->created_at,
+				'operation'   => $this->entry->operation,
+				'origin'      => $this->entry->origin,
+				'target'      => $this->entry->target,
+				'environment' => $this->entry->environment,
+				'message'     => $this->entry->message,
+				'level'       => $this->entry->level,
+				'extra'       => $this->entry->context,
 			),
 		);
 	}
 
 	public function isSent(): bool
 	{
-		return $this->is_sent;
+		return $this->entry->is_sent;
 	}
 
 	public function markSent(): void
 	{
 		if ( ! $this->isSent() ) {
-			$this->is_sent = $this->data->mark_sent( $this->getId() );
+			$this->entry->is_sent = $this->data->mark_sent( $this->entry->id );
 		}
 	}
 }
