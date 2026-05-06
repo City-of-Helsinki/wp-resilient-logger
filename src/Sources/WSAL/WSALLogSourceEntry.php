@@ -4,87 +4,62 @@ namespace CityOfHelsinki\WP\ResilientLogger\Sources\WSAL;
 
 use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
 use ResilientLogger\Sources\AbstractLogSourceEntry;
-use ResilientLogger\Utils\Helpers;
+use stdClass;
 
 final class WSALLogSourceEntry implements AbstractLogSourceEntry
 {
-	private int $id;
-	private array $row;
-	private array $details;
-	private array $target;
-	private bool $is_sent;
-
 	public function __construct(
-		private WSALData $data,
-		WSALAlertAdapter $alerts,
-		private ResilientLoggerConfig $config,
-		array $row
-	) {
-		$this->id = isset( $row['id'] ) ? (int) $row['id'] : 0;
-		$this->is_sent = isset( $row['is_sent'] ) ? (bool) $row['is_sent'] : false;
-		$this->row = $row;
-		$this->details = $alerts->parseAlertDetails(
-			(int) $this->row['alert_id'] ?? 0
-		);
-		$this->target = $alerts->parseTarget(
-			$this->row['alert_id'] ?? 'none',
-			$this->row['site_id'] ?? '1',
-			$this->parseMetadata()
-		);
-	}
+		private stdClass $alert,
+		private WSALData $data
+	) {}
 
 	public function getId(): int|string
 	{
-		return $this->id;
+		return $this->alert->id;
 	}
 
 	public function getDocument(): array
 	{
-		$meta      = $this->parseMetadata();
-		$timestamp = $this->parseDateString((int) $this->row['created_on']);
+		$timestamp = $this->parseDateString();
 
-		return [
+		return array(
 			'@timestamp' => $timestamp,
-			'audit_event' => [
-				'actor' => [
-					'user_id' => (string) ($meta['CurrentID'] ?? '0'),
-					'ip'      => (string) ($meta['ClientIP'] ?? 'unknown'),
-				],
+			'audit_event' => array(
+				'actor' => array(
+					'user_id' => (string) ($this->alert->meta['CurrentID'] ?? '0'),
+					'ip'      => (string) ($this->alert->meta['ClientIP'] ?? 'unknown'),
+				),
 				'date_time'   => $timestamp,
-				'operation'   => $this->details['operation'],
-				'origin'      => $this->config->origin(),
-				'target'      => $this->target,
-				'environment' => $this->config->environment(),
-				'message'     => (string) ($this->row['message'] ?? ''),
+				'operation'   => $this->alert->details['operation'],
+				'origin'      => $this->alert->origin,
+				'target'      => $this->alert->target,
+				'environment' => $this->alert->environment,
+				'message'     => $this->alert->message,
 				'level'       => 200,
-				'extra'       => array_merge($meta, [
-					'WSAL_AlertId'   => (int) $this->row['alert_id'],
-					'WSAL_AlertDesc' => $this->details['description'],
-				]),
-			],
-		];
+				'extra'       => array_merge( $this->alert->meta, array(
+					'WSAL_AlertId'   => $this->alert->alert_id,
+					'WSAL_AlertDesc' => $this->alert->details['description'],
+				) ),
+			),
+		);
 	}
 
-	private function parseMetadata(): array
+	private function parseDateString(): string
 	{
-		return $this->row['meta_values'] ?? [];
-	}
+		$timestamp = new \DateTimeImmutable("@{$this->alert->created_on}");
 
-	private function parseDateString(int $unixTime): string
-	{
-		$timestamp = new \DateTimeImmutable("@{$unixTime}");
 		return $timestamp->format(\DateTime::ATOM);
 	}
 
 	public function isSent(): bool
 	{
-		return $this->is_sent;
+		return $this->alert->is_sent;
 	}
 
 	public function markSent(): void
 	{
 		if ( ! $this->isSent() ) {
-			$this->is_sent = $this->data->mark_sent( $this->getId() );
+			$this->alert->is_sent = $this->data->mark_sent( $this->alert->id );
 		}
 	}
 }
