@@ -59,9 +59,6 @@ final class ResilientLoggerLogSource implements AbstractLogSource
 			'environment' => $this->config->environment(),
 		);
 
-		return new ResilientLoggerSourceEntry(
-			(object) $entry,
-			$this->data,
-		);
+		return new ResilientLoggerSourceEntry( (object) $entry, $this->data );
 	}
 }
