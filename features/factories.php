@@ -16,6 +16,7 @@ use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerData;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerLogSource;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Lookups\AlertDetails;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Lookups\AlertTarget;
+use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Settings\WSALSettingsHooks;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALData;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALLogSource;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALHooks;
@@ -56,6 +57,10 @@ function helsinki_wp_resilient_logger_wsal_hooks(): WSALHooks {
 	return new WSALHooks(
 		new HumanReadableDiffer()
 	);
+}
+
+function helsinki_wp_resilient_logger_wsal_settings_hooks(): WSALSettingsHooks {
+	return new WSALSettingsHooks();
 }
 
 function helsinki_wp_resilient_logger_db_migrator(): Migrator {
