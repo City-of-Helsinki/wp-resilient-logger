@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$settings = helsinki_wp_resilient_logger_wsal_settings_hooks();
 
 			foreach( $settings->overrides() as $hook => $override ) {
-				\add_filter( $hook, fn( $option ) => $override, PHP_INT_MAX, 1 );
+				\add_filter( $hook, fn() => $override, PHP_INT_MAX, 1 );
 			}
 		}
 
