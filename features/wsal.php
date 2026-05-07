@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALForcedSettings;
-
 \add_action( 'helsinki_wp_resilient_logger_loaded', function() {
 
 	if ( \apply_filters( 'helsinki_wp_resilient_logger_wsal_active', false ) ) {
@@ -21,14 +19,30 @@ use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\WSALForcedSettings;
 				PHP_INT_MAX, 3
 			);
 
-			foreach( WSALForcedSettings::cases() as $forced ) {
-				\add_filter(
-					"pre_option_{$forced->value}",
-					fn( $option ) => $forced->override(),
-					PHP_INT_MAX, 1
-				);
+			\add_filter(
+				'bulk_actions-toplevel_page_wsal-auditlog',
+				'__return_empty_array'
+			);
+
+			\add_filter( 'wsal_skip_views', function( array $views ): array {
+				return array_merge( $views, array(
+					'WSAL_Views_Help',
+					'WSAL_Views_Settings',
+					'WSAL_Views_ToggleAlerts',
+					'\WSAL\Views\Premium_Features',
+				) );
+			} );
+
+			$settings = helsinki_wp_resilient_logger_wsal_settings_hooks();
+
+			foreach( $settings->overrides() as $hook => $override ) {
+				\add_filter( $hook, fn( $option ) => $override, PHP_INT_MAX, 1 );
 			}
 		}
+
+		\add_action( 'admin_menu', function(): void {
+			\remove_submenu_page( 'wsal-auditlog', 'upgrade' );
+		}, 999 );
 
 		$hooks = helsinki_wp_resilient_logger_wsal_hooks();
 
