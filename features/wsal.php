@@ -38,6 +38,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 			foreach( $settings->overrides() as $pre_option => $override ) {
 				\add_filter( $pre_option, fn() => $override, PHP_INT_MAX, 1 );
 			}
+
+			\add_action( 'wp_ajax_wsal_reset_settings', function() {
+				\wp_send_json_error(
+					\esc_html( _x( 'How about no', 'WSAL disabled ajax message', 'wp-resilient-logger' ) )
+				);
+			}, 1 );
+
+			\add_action( 'wp_ajax_wsal_purge_activity', function() {
+				\wp_send_json_error(
+					\esc_html( _x( 'How about no', 'WSAL disabled ajax message', 'wp-resilient-logger' ) )
+				);
+			}, 1 );
 		}
 
 		\add_action( 'admin_menu', function(): void {
