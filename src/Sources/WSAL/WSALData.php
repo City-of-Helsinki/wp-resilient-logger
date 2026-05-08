@@ -21,7 +21,7 @@ final class WSALData
 
 	public function unsent(int $limit): array
 	{
-		$ids = $this->unset_ids( $limit );
+		$ids = $this->unsent_ids( $limit );
 		if ( $ids ) {
 			$placeholders = array_fill( 0, count( $ids ), '%d' );
 
@@ -42,7 +42,7 @@ final class WSALData
 		return $rows ? Occurrences_Entity::get_multi_meta_array($rows) : array();
 	}
 
-	private function unset_ids( int $limit ): array
+	private function unsent_ids( int $limit ): array
 	{
 		$sql = $this->db->prepare(
 			"SELECT id FROM {$this->occurences_table} as ot
