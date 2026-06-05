@@ -16,7 +16,9 @@ final class WSALData
 		private readonly string $sync_table,
 		private readonly string $date_format
 	) {
-		$this->occurences_table = Occurrences_Entity::get_table_name($this->db);
+		$this->occurences_table = class_exists( 'Occurrences_Entity' )
+			? Occurrences_Entity::get_table_name($this->db)
+			: '';
 	}
 
 	public function unsent(int $limit): array
@@ -44,18 +46,22 @@ final class WSALData
 
 	private function unsent_ids( int $limit ): array
 	{
-		$sql = $this->db->prepare(
-			"SELECT id FROM {$this->occurences_table} as ot
-			LEFT JOIN {$this->sync_table} AS st
-				ON st.occurrence_id = ot.id
-			WHERE st.is_sent = 0
-				OR st.occurrence_id IS NULL
-			ORDER BY ot.id
-			ASC LIMIT %d",
-			$limit > 0 ? $limit : $this->config->chunk_size(),
-		);
+		if ( $this->occurences_table ) {
+			$sql = $this->db->prepare(
+				"SELECT id FROM {$this->occurences_table} as ot
+				LEFT JOIN {$this->sync_table} AS st
+					ON st.occurrence_id = ot.id
+				WHERE st.is_sent = 0
+					OR st.occurrence_id IS NULL
+				ORDER BY ot.id
+				ASC LIMIT %d",
+				$limit > 0 ? $limit : $this->config->chunk_size(),
+			);
 
-		return array_map( 'intval', $this->db->get_col( $sql ) );
+			return array_map( 'intval', $this->db->get_col( $sql ) );
+		}
+
+		return array();
 	}
 
 	public function mark_sent(int $occurrence_id): bool
