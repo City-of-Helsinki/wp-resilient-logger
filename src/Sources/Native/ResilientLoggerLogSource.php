@@ -45,12 +45,14 @@ final class ResilientLoggerLogSource implements AbstractLogSource
 
 		unset( $context['actor'], $context['operation'], $context['target'] );
 
+		$date_time = new \DateTimeImmutable( $row['created_at'] );
+
 		$entry = array(
 			'id' => isset( $row['id'] ) ? (int) $row['id'] : 0,
 			'is_sent' => isset( $row['is_sent'] ) ? (bool) $row['is_sent'] : false,
 			'message' => $message,
 			'context' => $context,
-			'created_at' => new \DateTimeImmutable( $row['created_at'] ),
+			'created_at' => $date_time->format( $this->config->date_time_format() ),
 			'level' => (int) $row['level'],
 			'actor' => Helpers::valueAsArray( $actor ),
 			'operation' => $operation,
