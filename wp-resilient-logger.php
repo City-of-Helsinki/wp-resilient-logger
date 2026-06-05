@@ -39,26 +39,14 @@ function helsinki_wp_resilient_logger_require_files(): void {
 
 	helsinki_wp_resilient_logger_require_files();
 
-	$environment = helsinki_wp_resilient_logger_environment();
+	$flags = get_object_vars(
+		helsinki_wp_resilient_logger_environment()
+	);
 
-	if ( $environment->is_debug ) {
-		\add_filter( 'helsinki_wp_resilient_logger_is_debug', '__return_true' );
-	}
-
-	if ( $environment->is_cli ) {
-		\add_filter( 'helsinki_wp_resilient_logger_is_cli', '__return_true' );
-	}
-
-	if ( $environment->use_wp_cron ) {
-		\add_filter( 'helsinki_wp_resilient_logger_use_wp_cron', '__return_true' );
-	}
-
-	if ( $environment->wsal_active ) {
-		\add_filter( 'helsinki_wp_resilient_logger_wsal_active', '__return_true' );
-	}
-
-	if ( $environment->wsal_enforce_settings ) {
-		\add_filter( 'helsinki_wp_resilient_logger_wsal_enforce_settings', '__return_true' );
+	foreach ( $flags as $flag => $enabled ) {
+		if ( $enabled ) {
+			\add_filter( 'helsinki_wp_resilient_logger_' . $flag, '__return_true' );
+		}
 	}
 
 	\do_action( 'helsinki_wp_resilient_logger_loaded' );
