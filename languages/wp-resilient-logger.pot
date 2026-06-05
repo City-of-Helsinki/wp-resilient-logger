@@ -1,9 +1,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Helfi Resilient Logger\n"
+"Project-Id-Version: Helsinki Resilient Logger\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-28 20:55+0000\n"
+"POT-Creation-Date: 2026-06-05 09:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -29,14 +29,31 @@ msgid "Every 30 Days"
 msgstr ""
 
 #. Name of the plugin
-msgid "Helfi Resilient Logger"
+msgid "Helsinki Resilient Logger"
 msgstr ""
 
 #. Author URI of the plugin
 msgid "https://www.hel.fi"
 msgstr ""
 
+#: src/Sources/WSAL/Settings/WSALSettingsHooks.php:28
+msgid ""
+"Settings marked with a asterisk (*) use predefined value from Helsinki "
+"Resilient Logger plugin and cannot be changed by the site administrator."
+msgstr ""
+
+#: src/Sources/WSAL/WSALHooks.php:71
+msgid ""
+"When using Helsinki Resilient Logger plugin all Activity Log events are "
+"logged by default and any changes made to the events list are ignored."
+msgstr ""
+
 #. Description of the plugin
 msgid ""
 "WordPress-compatible implementation of city-of-helsinki/php-resilient-logger"
+msgstr ""
+
+#: src/Sources/WSAL/WSALHooks.php:27
+msgctxt "WSAL disabled ajax message"
+msgid "You are not allowed to reset or purge Activity Log data."
 msgstr ""

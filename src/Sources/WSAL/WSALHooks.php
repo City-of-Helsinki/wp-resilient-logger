@@ -68,7 +68,7 @@ final class WSALHooks
 				'<div class="notice notice-warning">
 					<p>%s</p>
 				</div>',
-				\esc_html( __( 'When using Helfi Resilient Logger plugin all Activity Log events are logged by default and any changes made to the events list are ignored.', 'wp-resilient-logger' ) )
+				\esc_html( __( 'When using Helsinki Resilient Logger plugin all Activity Log events are logged by default and any changes made to the events list are ignored.', 'wp-resilient-logger' ) )
 			);
 		}
 	}

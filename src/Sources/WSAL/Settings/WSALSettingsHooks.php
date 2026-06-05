@@ -25,7 +25,7 @@ final class WSALSettingsHooks
 				'<div class="notice notice-warning">
 					<p>%s</p>
 				</div>',
-				\esc_html( __( 'Settings marked with a asterisk (*) use predefined value from Helfi Resilient Logger plugin and cannot be changed by the site administrator.', 'wp-resilient-logger' ) )
+				\esc_html( __( 'Settings marked with a asterisk (*) use predefined value from Helsinki Resilient Logger plugin and cannot be changed by the site administrator.', 'wp-resilient-logger' ) )
 			);
 		}
 	}

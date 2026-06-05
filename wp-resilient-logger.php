@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: Helfi Resilient Logger
+ * Plugin Name: Helsinki Resilient Logger
  * Description: WordPress-compatible implementation of city-of-helsinki/php-resilient-logger
  * Requires at least: 6.0.0
  * Requires PHP: 8.2
