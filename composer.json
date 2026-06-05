@@ -1,5 +1,5 @@
 {
-    "name": "wp/helfi_resilient_logger",
+    "name": "city-of-helsinki/wp-resilient-logger",
     "description": "Wordpress bridge for ResilientLogger",
     "type": "wordpress-plugin",
     "license": "MIT",
