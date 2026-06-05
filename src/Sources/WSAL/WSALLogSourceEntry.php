@@ -20,16 +20,14 @@ final class WSALLogSourceEntry implements AbstractLogSourceEntry
 
 	public function getDocument(): array
 	{
-		$timestamp = $this->parseDateString();
-
 		return array(
-			'@timestamp' => $timestamp,
+			'@timestamp' => $this->entry->created_on,
 			'audit_event' => array(
 				'actor' => array(
 					'user_id' => (string) ($this->entry->meta['CurrentID'] ?? '0'),
 					'ip'      => (string) ($this->entry->meta['ClientIP'] ?? 'unknown'),
 				),
-				'date_time'   => $timestamp,
+				'date_time'   => $this->entry->created_on,
 				'operation'   => $this->entry->details['operation'],
 				'origin'      => $this->entry->origin,
 				'target'      => $this->entry->target,
@@ -42,13 +40,6 @@ final class WSALLogSourceEntry implements AbstractLogSourceEntry
 				) ),
 			),
 		);
-	}
-
-	private function parseDateString(): string
-	{
-		$timestamp = new \DateTimeImmutable("@{$this->entry->created_on}");
-
-		return $timestamp->format(\DateTime::ATOM);
 	}
 
 	public function isSent(): bool
