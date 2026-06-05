@@ -60,7 +60,7 @@ define('RESILIENT_LOGGER_SETTINGS', [
 ]);
 
 /** Define this and set to true if native WP cron is to be used */
-define('RESILIENT_LOGGER_USE_WP_CRON', true);
+define( 'RESILIENT_LOGGER_USE_WP_CRON', true );
 ```
 
 Current environment is determined with `wp_get_environment_type()`.
@@ -76,12 +76,28 @@ wp resilient-logger entries submit    # recommended every 15 minutes
 wp resilient-logger entries clear       # recommended once per month
 ```
 
+When using `RESILIENT_LOGGER_USE_WP_CRON` the above commands are executed on `wp cron event run --due-now` command.
+
 ---
 
 ## Integration
 
 - Integrates with [WP Security Audit Log](https://wordpress.org/plugins/wp-security-audit-log/) by generating external sync/meta tables  
-- Supports multiple sources and targets via configuration  
+- Supports multiple sources and targets via configuration
+
+### WP Security Audit Log
+
+WP Resilient Logger overrides selected WSAL settings with predefined values. The overrides are defined in `Sources\WSAL\Settings\WSALForcedSettings`.
+
+Available configuration constants for `wp-config.php`
+
+```php
+// Hide WP Activity Log > Enable / Disable Events menu page.
+define( 'RESILIENT_LOGGER_WSAL_DISABLE_EVENTS_VIEW', true );
+
+// Hide WP Activity Log > Settings menu page and disable settings editing
+define( 'RESILIENT_LOGGER_WSAL_DISALLOW_EDIT_SETTINGS', true );
+```
 
 ---
 
