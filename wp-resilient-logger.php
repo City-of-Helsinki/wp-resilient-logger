@@ -35,45 +35,53 @@ function helsinki_wp_resilient_logger_require_files(): void {
 	require_once $plugin_dir . 'features/wsal.php';
 }
 
-\add_action( 'plugins_loaded', function() {
+function helsinki_wp_resilient_logger_load(): void {
 
-	helsinki_wp_resilient_logger_require_files();
+	if ( ! \did_action( 'helsinki_wp_resilient_logger_loaded' ) ) {
 
-	$flags = get_object_vars(
-		helsinki_wp_resilient_logger_environment()
-	);
+		helsinki_wp_resilient_logger_require_files();
 
-	foreach ( $flags as $flag => $enabled ) {
-		if ( $enabled ) {
-			\add_filter( 'helsinki_wp_resilient_logger_' . $flag, '__return_true' );
+		$flags = get_object_vars(
+			helsinki_wp_resilient_logger_environment()
+		);
+
+		foreach ( $flags as $flag => $enabled ) {
+			if ( $enabled ) {
+				\add_filter( 'helsinki_wp_resilient_logger_' . $flag, '__return_true' );
+			}
 		}
+
+		\do_action( 'helsinki_wp_resilient_logger_loaded' );
+
 	}
 
-	\do_action( 'helsinki_wp_resilient_logger_loaded' );
+}
 
-}, 11 );
+function helsinki_wp_resilient_logger_init(): void {
 
-\add_action( 'init', function() {
+	if ( ! \did_action( 'helsinki_wp_resilient_logger_init' ) ) {
 
-	\load_plugin_textdomain(
-		'wp-resilient-logger',
-		false,
-		dirname( \plugin_basename( __FILE__ ) ) . '/languages'
-	);
+		\load_plugin_textdomain(
+			'wp-resilient-logger',
+			false,
+			dirname( \plugin_basename( __FILE__ ) ) . '/languages'
+		);
 
-	\do_action( 'helsinki_wp_resilient_logger_init' );
+		\do_action( 'helsinki_wp_resilient_logger_init' );
 
-} );
+	}
+
+}
+
+\add_action( 'plugins_loaded', __NAMESPACE__ . '\\helsinki_wp_resilient_logger_load', 11 );
+\add_action( 'init', __NAMESPACE__ . '\\helsinki_wp_resilient_logger_init', 10 );
 
 \register_activation_hook( __FILE__, 'helsinki_wp_resilient_logger_activate' );
 function helsinki_wp_resilient_logger_activate(): void {
 
-	helsinki_wp_resilient_logger_require_files();
+	helsinki_wp_resilient_logger_load();
 
-	\do_action(
-		'helsinki_wp_resilient_logger_activate',
-		helsinki_wp_resilient_logger_environment()
-	);
+	\do_action( 'helsinki_wp_resilient_logger_activate' );
 
 }
 
