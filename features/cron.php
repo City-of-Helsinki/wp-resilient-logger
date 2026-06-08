@@ -7,11 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerSchedule;
-use CityOfHelsinki\WP\ResilientLogger\Helpers\CurrentEnvironment;
 
-\add_action( 'helsinki_wp_resilient_logger_activate', function( CurrentEnvironment $environment ) {
+\add_action( 'helsinki_wp_resilient_logger_activate', function() {
 
-	if ( $environment->use_wp_cron ) {
+	if ( \apply_filters( 'helsinki_wp_resilient_logger_use_wp_cron', false ) ) {
+
 		$scheduler = helsinki_wp_resilient_logger_scheduler();
 
 		foreach ( $scheduler->schedules() as $action => $interval ) {
