@@ -8,7 +8,6 @@
             "CityOfHelsinki\\WP\\ResilientLogger\\": "src/"
         }
     },
-    "minimum-stability": "dev",
     "repositories": [
     {
         "type": "vcs",
@@ -17,9 +16,6 @@
   ],
     "require": {
         "city-of-helsinki/php-resilient-logger": "^2.0"
-    },
-    "require-dev": {
-        "php-stubs/wp-cli-stubs": "dev-master"
     },
     "config": {
         "allow-plugins": {
