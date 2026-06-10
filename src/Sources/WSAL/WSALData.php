@@ -16,7 +16,7 @@ final class WSALData
 		private readonly string $sync_table,
 		private readonly string $date_format
 	) {
-		$this->occurences_table = class_exists( 'Occurrences_Entity' )
+		$this->occurences_table = class_exists( Occurrences_Entity::class )
 			? Occurrences_Entity::get_table_name($this->db)
 			: '';
 	}
