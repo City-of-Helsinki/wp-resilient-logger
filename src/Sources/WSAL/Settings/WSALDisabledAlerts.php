@@ -7,6 +7,7 @@ namespace CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Settings;
 enum WSALDisabledAlerts: int
 {
 	// WordPress
+	case VIEW_POST_EDIT = 2100;
 	case VIEW_POST = 2101;
 	case VIEW_PAGE_EDIT = 2102;
 	case VIEW_PAGE = 2103;
