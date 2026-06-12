@@ -15,6 +15,9 @@ enum WSALDisabledAlerts: int
 	case VIEW_CPT = 2105;
 	case VIEW_PROTECTED_POST = 2134;
 
+	// Cron
+	case RECURRING_TASK_EXECUTED = 6070;
+
 	public static function codes(): array
     {
         return array_map( fn($case) => $case->value, self::cases() );
