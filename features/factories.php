@@ -65,8 +65,11 @@ function helsinki_wp_resilient_logger_wsal_hooks(): WSALHooks {
 	$content = new PostContent();
 
 	$augmentations = helsinki_wp_resilient_logger_data_augmentations(
-		helsinki_wp_resilient_logger_data_augmentation_content_diff( $content ),
-		helsinki_wp_resilient_logger_data_augmentation_request_id()
+		new AddContentDiff(
+			new HumanReadableDiffer(),
+			$content
+		),
+		new AddRequestId()
 	);
 
 	$gates = helsinki_wp_resilient_logger_event_gates(
@@ -82,17 +85,6 @@ function helsinki_wp_resilient_logger_wsal_hooks(): WSALHooks {
 
 function helsinki_wp_resilient_logger_data_augmentations( DataAugmentation ...$augmentations ): CompositeDataAugmentation {
 	return new CompositeDataAugmentation( ...$augmentations );
-}
-
-function helsinki_wp_resilient_logger_data_augmentation_content_diff( PostContent $content ): AddContentDiff {
-	return new AddContentDiff(
-		new HumanReadableDiffer(),
-		$content
-	);
-}
-
-function helsinki_wp_resilient_logger_data_augmentation_request_id(): AddRequestId {
-	return new AddRequestId();
 }
 
 function helsinki_wp_resilient_logger_event_gates( EventGate ...$gates ): CompositeEventGate {
