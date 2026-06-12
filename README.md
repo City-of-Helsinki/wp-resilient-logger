@@ -107,7 +107,7 @@ Replace `{role}` with role name, e.g. `administrator`.
 
 ```php
 // Login
-add_filter( 'helsinki_wp_resilient_logger_log_administrator_login', '__return_false' );
+add_filter( 'helsinki_wp_resilient_logger_log_{role}_login', '__return_false' );
 add_filter( 'helsinki_wp_resilient_logger_log_login', '__return_false' );
 
 // Logout
