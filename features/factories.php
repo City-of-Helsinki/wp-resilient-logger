@@ -11,9 +11,17 @@ use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerAdapter;
 use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
 use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerScheduler;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\CurrentEnvironment;
+use CityOfHelsinki\WP\ResilientLogger\Helpers\PostContent;
 use CityOfHelsinki\WP\ResilientLogger\Database\Migrator;
+use CityOfHelsinki\WP\ResilientLogger\Sources\Augmentations\AddContentDiff;
+use CityOfHelsinki\WP\ResilientLogger\Sources\Augmentations\AddRequestId;
+use CityOfHelsinki\WP\ResilientLogger\Sources\Augmentations\CompositeDataAugmentation;
+use CityOfHelsinki\WP\ResilientLogger\Sources\Augmentations\DataAugmentation;
+use CityOfHelsinki\WP\ResilientLogger\Sources\Gates\CompositeEventGate;
+use CityOfHelsinki\WP\ResilientLogger\Sources\Gates\EventGate;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerData;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Native\ResilientLoggerLogSource;
+use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Gates\LoginLogout;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Lookups\AlertDetails;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Lookups\AlertTarget;
 use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Settings\WSALSettingsHooks;
@@ -54,9 +62,41 @@ function helsinki_wp_resilient_logger_scheduler(): ResilientLoggerScheduler {
 }
 
 function helsinki_wp_resilient_logger_wsal_hooks(): WSALHooks {
-	return new WSALHooks(
-		new HumanReadableDiffer()
+	$content = new PostContent();
+
+	$augmentations = helsinki_wp_resilient_logger_data_augmentations(
+		helsinki_wp_resilient_logger_data_augmentation_content_diff( $content ),
+		helsinki_wp_resilient_logger_data_augmentation_request_id()
 	);
+
+	$gates = helsinki_wp_resilient_logger_event_gates(
+		new LoginLogout()
+	);
+
+	return new WSALHooks(
+		$content,
+		$augmentations,
+		$gates
+	);
+}
+
+function helsinki_wp_resilient_logger_data_augmentations( DataAugmentation ...$augmentations ): CompositeDataAugmentation {
+	return new CompositeDataAugmentation( ...$augmentations );
+}
+
+function helsinki_wp_resilient_logger_data_augmentation_content_diff( PostContent $content ): AddContentDiff {
+	return new AddContentDiff(
+		new HumanReadableDiffer(),
+		$content
+	);
+}
+
+function helsinki_wp_resilient_logger_data_augmentation_request_id(): AddRequestId {
+	return new AddRequestId();
+}
+
+function helsinki_wp_resilient_logger_event_gates( EventGate ...$gates ): CompositeEventGate {
+	return new CompositeEventGate( ...$gates );
 }
 
 function helsinki_wp_resilient_logger_wsal_settings_hooks(): WSALSettingsHooks {

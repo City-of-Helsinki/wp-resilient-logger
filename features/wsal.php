@@ -85,8 +85,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		\add_filter(
 			'wsal_event_data_before_log',
-			array( $hooks, 'augment_event_data' ),
-			PHP_INT_MAX
+			array( $hooks, 'prepare_event_data' ),
+			PHP_INT_MAX, 2
 		);
 
 		\add_action(
