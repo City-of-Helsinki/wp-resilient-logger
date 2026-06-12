@@ -89,6 +89,8 @@ When using `RESILIENT_LOGGER_USE_WP_CRON` the above commands are executed on `wp
 
 WP Resilient Logger overrides selected WSAL settings with predefined values. The overrides are defined in `Sources\WSAL\Settings\WSALForcedSettings`.
 
+By default all but defined WSAL events are logged. The excluded events are defined in `Sources\WSAL\Settings\WSALDisabledAlerts`. Site administrators cannot enable or disable logged events in the site dashboard.
+
 Available configuration constants for `wp-config.php`
 
 ```php
