@@ -19,13 +19,17 @@ final class LoginLogout implements EventGate
 
 	private function log_action( string $action, array $data ): bool
 	{
+		if ( ! $this->determine_logging( $action ) ) {
+			return false;
+		}
+
 		foreach( $this->user_roles( $data ) as $role ) {
 			if ( ! $this->determine_logging( $role, $action ) ) {
 				return false;
 			}
 		}
 
-		return $this->determine_logging( $action );
+		return true;
 	}
 
 	private function determine_logging( string ...$parts ): bool
