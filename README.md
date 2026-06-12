@@ -99,6 +99,22 @@ define( 'RESILIENT_LOGGER_WSAL_DISABLE_EVENTS_VIEW', true );
 define( 'RESILIENT_LOGGER_WSAL_DISALLOW_EDIT_SETTINGS', true );
 ```
 
+## Event filters
+
+WP Resilient Logger provides filters to prevent logging of certain events. You can for example add any of the following filters to a `mu-plugin`.
+
+Replace `{role}` with role name, e.g. `administrator`.
+
+```php
+// Login
+add_filter( 'helsinki_wp_resilient_logger_log_administrator_login', '__return_false' );
+add_filter( 'helsinki_wp_resilient_logger_log_login', '__return_false' );
+
+// Logout
+add_filter( 'helsinki_wp_resilient_logger_log_{role}_logout', '__return_false' );
+add_filter( 'helsinki_wp_resilient_logger_log_logout', '__return_false' );
+```
+
 ---
 
 ## Relationship to `php-resilient-logger`
