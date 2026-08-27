@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CityOfHelsinki\WP\ResilientLogger\Helpers;
 
+use Throwable;
+
 final class ResilientLoggerException extends \Exception
 {
 	public static function settings_missing(): self
@@ -43,11 +45,14 @@ final class ResilientLoggerException extends \Exception
 		return new self( 'Failed to insert log into WordPress database.' );
 	}
 
-	public static function db_reset_failed( string $name ): self
+	public static function db_reset_failed( string $name, ?Throwable $previous = null ): self
 	{
-		return new self( sprintf(
-			'Failed to reset "%s" database.',
-			\esc_html( $name )
-		) );
+		return new self(
+			message: sprintf(
+				'Failed to reset "%s" database.',
+				\esc_html( $name )
+			),
+			previous: $previous
+		);
 	}
 }

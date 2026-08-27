@@ -20,4 +20,12 @@ final class ResilientLoggerTables
 	{
 		return "{$db->prefix}helfi_wsal_sync";
 	}
+
+	public static function list(wpdb $db): array
+	{
+		return array(
+			self::resilient_log($db),
+			self::wsal_sync($db),
+		);
+	}
 }

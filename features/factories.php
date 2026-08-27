@@ -12,6 +12,7 @@ use CityOfHelsinki\WP\ResilientLogger\ResilientLoggerConfig;
 use CityOfHelsinki\WP\ResilientLogger\Cron\ResilientLoggerScheduler;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\CurrentEnvironment;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\PostContent;
+use CityOfHelsinki\WP\ResilientLogger\Database\DatabaseHooks;
 use CityOfHelsinki\WP\ResilientLogger\Database\Migrator;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Augmentations\AddContentDiff;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Augmentations\AddRequestId;
@@ -93,6 +94,10 @@ function helsinki_wp_resilient_logger_event_gates( EventGate ...$gates ): Compos
 
 function helsinki_wp_resilient_logger_wsal_settings_hooks(): WSALSettingsHooks {
 	return new WSALSettingsHooks();
+}
+
+function helsinki_wp_resilient_logger_db_hooks(): DatabaseHooks {
+	return new DatabaseHooks();
 }
 
 function helsinki_wp_resilient_logger_db_migrator(): Migrator {

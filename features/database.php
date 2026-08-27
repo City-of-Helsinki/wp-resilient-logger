@@ -26,4 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 		\add_action( 'wp_initialize_site', array( $migrator, 'setup_network_site' ) );
 	}
 
+	\add_action(
+		'helsinki_wp_resilient_logger_db_reset',
+		array( helsinki_wp_resilient_logger_db_hooks(), 'reset_database' )
+	);
+
 }, 20 );
