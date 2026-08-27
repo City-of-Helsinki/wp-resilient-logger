@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "city-of-helsinki/php-resilient-logger",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/php-resilient-logger.git",
-                "reference": "213d4106f372b3c43ea757e29c88829618ebea59"
+                "reference": "3bd0723bbbaa2360a3128a173e141649c0a95a77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/php-resilient-logger/zipball/213d4106f372b3c43ea757e29c88829618ebea59",
-                "reference": "213d4106f372b3c43ea757e29c88829618ebea59",
+                "url": "https://api.github.com/repos/City-of-Helsinki/php-resilient-logger/zipball/3bd0723bbbaa2360a3128a173e141649c0a95a77",
+                "reference": "3bd0723bbbaa2360a3128a173e141649c0a95a77",
                 "shasum": ""
             },
             "require": {
@@ -30,6 +30,7 @@
                 "behat/mink": "^1.12",
                 "phpspec/prophecy": "^1.20",
                 "phpspec/prophecy-phpunit": "^2.3",
+                "phpstan/phpstan": "^1.12 || ^2.0",
                 "phpunit/phpunit": "^10.5 || ^11.5"
             },
             "type": "library",
@@ -48,10 +49,10 @@
             ],
             "description": "PHP resilient logger for monolog",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/php-resilient-logger/tree/2.0.2",
+                "source": "https://github.com/City-of-Helsinki/php-resilient-logger/tree/2.0.3",
                 "issues": "https://github.com/City-of-Helsinki/php-resilient-logger/issues"
             },
-            "time": "2026-04-29T10:25:15+00:00"
+            "time": "2026-08-26T09:30:23+00:00"
         },
         {
             "name": "elastic/transport",
