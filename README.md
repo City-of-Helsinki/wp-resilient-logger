@@ -41,17 +41,14 @@ define('RESILIENT_LOGGER_SETTINGS', [
   ],
   'targets' => [
     [
-      "class" => 'ResilientLogger\Targets\ElasticsearchLogTarget',
-      "es_host" => 'host.docker.internal',
-      "es_port" => 9200,
-      "es_scheme" => 'http',
-      "es_username" => 'username',
-      "es_password" => 'password',
-      "es_index" => 'index-name',
-      "required" => true,
+      'class' => 'ResilientLogger\Targets\ElasticsearchLogTarget',
+      'es_url' => getenv('AUDIT_LOG_ES_URL') ?: 'http://host.docker.internal:9200',
+      'es_username' => getenv('AUDIT_LOG_ES_USERNAME') ?: '',
+      'es_password' => getenv('AUDIT_LOG_ES_PASSWORD') ?: '',
+      'es_index' => getenv('AUDIT_LOG_ES_INDEX') ?: 'index-name',
     ]
   ],
-  'origin'                 => 'helsinki-wp-dev',
+  'origin'                 => getenv('AUDIT_LOG_ORIGIN') ?: 'my-app',
   'store_old_entries_days' => 30,
   'batch_limit'            => 5000,
   'chunk_size'             => 500,
@@ -64,6 +61,24 @@ define( 'RESILIENT_LOGGER_USE_WP_CRON', true );
 ```
 
 Current environment is determined with `wp_get_environment_type()`.
+
+### Environment variables
+
+The environment variable names below are the standard names used by the infrastructure configuration for this library. Unless your environment explicitly requires different names, use these names as-is.
+
+**Elasticsearch:**
+
+* `AUDIT_LOG_ES_URL` — Elasticsearch endpoint URL
+* `AUDIT_LOG_ES_USERNAME` — Elasticsearch username
+* `AUDIT_LOG_ES_PASSWORD` — Elasticsearch password
+* `AUDIT_LOG_ES_INDEX` — Elasticsearch index
+
+**General Resilient Logger configuration:**
+
+* `AUDIT_LOG_ENV` — environment identifier
+* `AUDIT_LOG_ORIGIN` — identifies the application or system producing the logs
+
+The Elasticsearch endpoint can also be configured using the individual endpoint components supported by `php-resilient-logger`: `es_scheme`, `es_host`, and `es_port`. See the [`php-resilient-logger`](https://github.com/City-of-Helsinki/php-resilient-logger#example-target-elasticsearch)[ configuration documentation](https://github.com/City-of-Helsinki/php-resilient-logger#example-target-elasticsearch) for details.
 
 ---
 
