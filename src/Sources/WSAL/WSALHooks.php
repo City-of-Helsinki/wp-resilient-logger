@@ -7,6 +7,7 @@ namespace CityOfHelsinki\WP\ResilientLogger\Sources\WSAL;
 use CityOfHelsinki\WP\ResilientLogger\Helpers\PostContent;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Augmentations\DataAugmentation;
 use CityOfHelsinki\WP\ResilientLogger\Sources\Gates\EventGate;
+use CityOfHelsinki\WP\ResilientLogger\Sources\WSAL\Actions\ResetWSALDatabase;
 
 final class WSALHooks
 {
@@ -87,5 +88,10 @@ final class WSALHooks
 		$this->augmentation->augment( $data );
 
 		return $data;
+	}
+
+	public function reset_database(): void
+	{
+		(new ResetWSALDatabase())->execute();
 	}
 }

@@ -100,5 +100,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			array( $hooks, 'disable_ajax_actions' ),
 			1
 		);
+
+		\add_action(
+			'helsinki_wp_resilient_logger_db_reset',
+			array( $hooks, 'reset_database' )
+		);
 	}
 }, 30 );

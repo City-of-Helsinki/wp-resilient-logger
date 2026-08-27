@@ -42,4 +42,12 @@ final class ResilientLoggerException extends \Exception
 	{
 		return new self( 'Failed to insert log into WordPress database.' );
 	}
+
+	public static function db_reset_failed( string $name ): self
+	{
+		return new self( sprintf(
+			'Failed to reset "%s" database.',
+			\esc_html( $name )
+		) );
+	}
 }

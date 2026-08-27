@@ -24,7 +24,7 @@ final class ResilientLoggerEntriesCli
 	 *
 	 * @subcommand clear
 	 */
-	public function clear( $args, $flags ): void
+	public function clear( $args, $assoc_args ): void
 	{
 		WP_CLI::log( 'Begin clearing sent entries...' );
 
@@ -51,7 +51,7 @@ final class ResilientLoggerEntriesCli
 	 *
 	 * @subcommand submit
 	 */
-	public function submit( $args, $flags ): void
+	public function submit( $args, $assoc_args ): void
 	{
 		WP_CLI::log( 'Begin submitting unsent entries...' );
 
