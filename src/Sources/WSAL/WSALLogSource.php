@@ -44,8 +44,6 @@ final class WSALLogSource implements AbstractLogSource
 
 	private function createEntry(array $row): AbstractLogSourceEntry
 	{
-		$date_time = new \DateTimeImmutable( $row['created_at'] ?? 'now' );
-
 		$entry = array(
 			'id' => isset( $row['id'] ) ? (int) $row['id'] : 0,
 			'site_id' => $row['site_id'] ?? 1,
@@ -53,7 +51,7 @@ final class WSALLogSource implements AbstractLogSource
 			'is_sent' => isset( $row['is_sent'] ) ? (bool) $row['is_sent'] : false,
 			'message' => (string) ($row['message'] ?? ''),
 			'meta' => $row['meta_values'] ?? array(),
-			'created_on' => $date_time->format( $this->config->date_time_format() ),
+			'created_on' => new \DateTimeImmutable( $row['created_at'] ?? 'now' ),
 			'origin' => $this->config->origin(),
 			'environment' => $this->config->environment(),
 		);

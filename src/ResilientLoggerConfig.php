@@ -58,11 +58,6 @@ final class ResilientLoggerConfig
 		return $this->bool_setting( __FUNCTION__ );
 	}
 
-	public function date_time_format(): string
-	{
-		return \DateTimeInterface::ISO8601;
-	}
-
 	private function string_setting( string $name, string $default = '' ): string
 	{
 		return $this->settings[ $name ] ?? $default;
