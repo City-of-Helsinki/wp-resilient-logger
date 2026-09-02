@@ -1,14 +1,13 @@
 {
     "name": "city-of-helsinki/wp-resilient-logger",
     "description": "Wordpress bridge for ResilientLogger",
-    "type": "library",
+    "type": "wordpress-plugin",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "WP\\helfi_resilient_logger\\": "src/"
+            "CityOfHelsinki\\WP\\ResilientLogger\\": "src/"
         }
     },
-    "minimum-stability": "dev",
     "repositories": [
     {
         "type": "vcs",
@@ -16,14 +15,18 @@
     }
   ],
     "require": {
-        "city-of-helsinki/php-resilient-logger": "dev-develop"
-    },
-    "require-dev": {
-        "php-stubs/wp-cli-stubs": "dev-master"
+        "city-of-helsinki/php-resilient-logger": "^2.0"
     },
     "config": {
         "allow-plugins": {
             "php-http/discovery": true
         }
+    },
+    "extra": {
+        "stubs": [
+            "src/Stubs/ResilientLoggerStubs.php",
+            "src/Stubs/WPStubs.php",
+            "src/Stubs/WSALStubs.php"
+        ]
     }
 }
