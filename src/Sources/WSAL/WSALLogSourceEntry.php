@@ -24,7 +24,7 @@ final class WSALLogSourceEntry implements AbstractLogSourceEntry
 			'@timestamp' => $this->entry->created_on,
 			'audit_event' => array(
 				'actor' => array(
-					'user_id' => (string) ($this->entry->meta['CurrentID'] ?? '0'),
+					'user_id' => (string) ($this->entry->meta['CurrentUserID'] ?? '0'),
 					'ip'      => (string) ($this->entry->meta['ClientIP'] ?? 'unknown'),
 				),
 				'date_time'   => $this->entry->created_on,
