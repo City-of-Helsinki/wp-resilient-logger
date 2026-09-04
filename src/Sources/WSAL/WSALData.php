@@ -28,22 +28,18 @@ final class WSALData
 		}
 
 		$ids = $this->unsent_ids( $limit );
-		if ( $ids ) {
-			$placeholders = array_fill( 0, count( $ids ), '%d' );
-
-			$rows = Occurrences_Entity::load_array(
-				sprintf(
-					"id IN (%s) ORDER BY id ASC",
-					implode( ',', $placeholders )
-				),
-				$ids,
-			);
-		} else {
-			$rows = Occurrences_Entity::load_array(
-	            '1 = 1 ORDER BY id ASC LIMIT %d',
-	            array( $limit )
-	        );
+		if ( ! $ids ) {
+			return array();
 		}
+
+		$placeholders = array_fill( 0, count( $ids ), '%d' );
+		$rows = Occurrences_Entity::load_array(
+			sprintf(
+				"id IN (%s) ORDER BY id ASC",
+				implode( ',', $placeholders )
+			),
+			$ids
+		);
 
 		return $rows ? Occurrences_Entity::get_multi_meta_array($rows) : array();
 	}
