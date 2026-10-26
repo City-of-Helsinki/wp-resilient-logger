@@ -5,7 +5,7 @@
  * Description: WordPress-compatible implementation of city-of-helsinki/php-resilient-logger
  * Requires at least: 6.0.0
  * Requires PHP: 8.2
- * Version: 1.0.2
+ * Version: 1.0.3
  * Author: City of Helsinki
  * Author URI: https://www.hel.fi
  * License: MIT License
@@ -83,6 +83,8 @@ function helsinki_wp_resilient_logger_activate(): void {
 
 	\do_action( 'helsinki_wp_resilient_logger_activate' );
 
+	\register_uninstall_hook( __FILE__, 'helsinki_wp_resilient_logger_uninstall' );
+
 }
 
 \register_deactivation_hook( __FILE__, 'helsinki_wp_resilient_logger_deactivate' );
@@ -92,8 +94,9 @@ function helsinki_wp_resilient_logger_deactivate(): void {
 
 }
 
-// \register_uninstall_hook( __FILE__, 'helsinki_wp_resilient_logger_uninstall' );
 function helsinki_wp_resilient_logger_uninstall(): void {
+
+	helsinki_wp_resilient_logger_load();
 
 	\do_action( 'helsinki_wp_resilient_logger_uninstall' );
 

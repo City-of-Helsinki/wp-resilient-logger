@@ -9,7 +9,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 \add_action( 'helsinki_wp_resilient_logger_loaded', function() {
 
-	$adapter = helsinki_wp_resilient_logger();
+	try {
+
+		$adapter = helsinki_wp_resilient_logger();
+
+	} catch ( Exception $exception ) {
+
+		\add_action( 'admin_notices', function() use ($exception) {
+			\wp_admin_notice(
+				sprintf(
+					'<strong>Helsinki Resilient Logger:</strong> %s',
+					$exception->getMessage()
+				),
+				array(
+					'type' => 'error',
+					'dismissible' => false,
+				)
+			);
+		} );
+
+	}
 
 	\add_action(
 		'helsinki_wp_resilient_logger_submit_unsent_entries',
